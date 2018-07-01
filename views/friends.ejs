@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My Note</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/stylesheets/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="/vendor/morrisjs/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <script src="/plugins/ckeditor/ckeditor.js"></script>
+
+    <style>
+        .selected{font-weight:bold; background-color:#00B7FF;}
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><%= title %></a>
+        </div>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+            </li>
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+            </li>
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+            </li>
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    </li>
+                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="sidebar-search">
+                        <div class="input-group custom-search-form">
+                            <input type="text" class="form-control search" id="mySearchBT" placeholder="Search..." >
+                            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick="mySearch()">
+                    <i class="fa fa-search"></i>
+                </button>
+              </span>
+                        </div>
+                        <!-- /input-group -->
+                    </li>
+                    <li>
+                        <a href="/"><i class="fa fa-book" aria-hidden="true"></i>  我的笔记本<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level" id="notebook_ul" role="menu">
+                            <%note.forEach(function(note2){%>
+                            <li id="context" data-toggle="context" data-target="#context-menu" onmousedown="right('<%=note2.notebookID%>','<%=note2.title%>','<%=note2.tag%>')">
+                                <a href="/index/showPageMenu/<%=note2.notebookID%>">
+                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                    <span id="<%=note2.notebookID%>"><%=note2.title%></span>
+                                </a>
+                            </li>
+                            <%})%>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation">
+                                <a data-toggle="modal" href="#addNotebookModal" onclick="getNotebookTags()">
+                                    <i class="fa fa-coffee" aria-hidden="true"></i>
+                                    <span>添加笔记本</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="fa fa-envelope fa-fw"></i>  好友圈<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/index/myFriends">
+                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                    <span>我的好友</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/index/sharedPage">
+                                    <i class="fa fa-share-alt" aria-hidden="true"></i>
+                                    <span>分享笔记</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+
+                    <li>
+                        <a href="/index/tagManage"><i class="fa fa-tags fa-fw" aria-hidden="true"></i>  标签管理</a>
+                    </li>
+                    <li>
+                        <a href="/index/myInfo"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> 我的信息</a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+
+    <div id="page-wrapper">
+
+        <!--<div class="panel">-->
+            <!--<div class="chat-panel panel panel-default">-->
+                <header class="panel-heading">
+                    <h3>我的好友</h3>
+                </header>
+                <form class="bs-example bs-example-form" role="form" action="#">
+                    <div class="row">
+                        <div class="col-md-6 pull-right">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="search_username" placeholder="Search User"  onkeydown="keyListener()">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" onclick="showSearchResult()" value="Search">Search</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="panel-body">
+                    <ul class="chat">
+                        <%allFriends.forEach(function(friend){%>
+
+                        <li class="left clearfix">
+                        <span class="chat-img pull-left">
+                            <img class="avatar" src="/images/avatar-mini.jpg" alt="">
+                        </span>
+                            <div class="chat-body clearfix">
+                                <div class="header">
+                                    <strong class="primary-font" style="font-size: 20px"><%=friend.friendUsername%></strong>
+                                    <small class="pull-right text-muted">
+                                        <!--<i class="fa fa-clock-o fa-fw"></i> 12 mins ago-->
+                                    </small>
+                                </div>
+                                <p>
+                                    <!--<address>-->
+                                    <label class="control-label">好友邮箱：</label>
+                                    <a href="mailto:#"><%=friend.friendEmail%></a><br>
+                                    <label class="control-label">联系方式：</label>
+                                    <a href="mailto:#"><%=friend.friendPhoneNumber%></a>
+                                    <!--</address>-->
+                                    <button class="btn btn-default pull-right" onclick="showDeleteFriendDialog('<%=friend.friendID%>','<%=friend.friendUsername%>')">删除好友</button>
+                                </p>
+                            </div>
+                        </li>
+                        <%})%>
+
+                    </ul>
+
+                </div>
+             <!--</div>-->
+
+        <!--</div>-->
+        <div class="modal fade" id="searchResultModal" style="display: none" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">搜索结果</h4>
+                    </div>
+                    <div class="modal-body profile-nav alt blue-border">
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-shopping-cart fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">124</div>
+                                        <div>New Orders!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="user-heading">
+                            <!--<a href="#">-->
+                                <!--<img alt="" src="/images/avatar-mini.jpg">-->
+                            <!--</a>-->
+                            <h1 id="searchResult_username"></h1>
+                        </div>
+
+                        <ul class="nav nav-pills nav-stacked">
+                            <li style="display: none"><a href="#" id="searchResult_userID">用户ID：<i class="fa fa-envelop"></i></a></li>
+                            <li><a href="#" ><i class="fa fa-envelope"id="searchResult_email"></i></a></li>
+                            <li><a href="#" ><i class="fa fa-phone" id="searchResult_phoneNumber"></i></a></li>
+                        </ul>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default btn-md btn-block" onclick="addUser()">加为好友</button>
+                        </div>
+
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <div class="modal fade" id="deleteFriendModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Delete Friend</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <br>
+                            <p id="delete_userID" style="display: none"></p>
+                            <p class="col-lg-12">是否确认删除好友：<strong id="delete_username" style="font-size: 16px"></strong>?</p>
+                            <button class="btn btn-default btn-block" onclick="deleteFriend()">删除</button>
+                        </div>
+
+
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
+    </div>
+    </div>
+
+
+</div>
+
+<!-- jQuery -->
+<script src="/vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="/vendor/metisMenu/metisMenu.min.js"></script>
+<script src="/plugins/bootstrap-contextmenu.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/javascripts/sb-admin-2.js"></script>
+
+<script>
+
+    function showSearchResult(){
+        var username=document.getElementById("search_username").value;
+        $.ajax({
+            data: {
+                username: username
+            },
+            url: "/friends/searchUser",
+            dataType: 'json',
+//                        async: false,
+            contentType: 'application/json;charset=UTF-8',
+            cache: false,
+            timeout: 0,
+            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            },
+            success: function (data) {
+                var result = JSON.parse(JSON.stringify(data));
+                if(result.message=='success'){
+                    if(result.data!=null){
+                        document.getElementById("searchResult_userID").innerText = result.data.userID;
+                        document.getElementById("searchResult_username").innerText = result.data.username;
+                        document.getElementById("searchResult_email").innerText = result.data.email;
+                        document.getElementById("searchResult_phoneNumber").innerText = result.data.phoneNumber;
+                        $("#searchResultModal").modal('show');
+                    }else {
+                        alert("该用户不存在！");
+                    }
+                }
+            },
+            error: function () {
+                alert("搜索用户失败！请刷新重试");
+            }
+        });
+
+    }
+
+    function addUser(){
+        var username=document.getElementById("searchResult_username").innerText;
+
+        if(username=="<%=user.username%>"){
+            alert("为什么要添加自己为好友呢？")
+            return;
+        }
+        var userID = document.getElementById("searchResult_userID").innerText;
+        var email = document.getElementById("searchResult_email").innerText;
+        var phoneNumber = document.getElementById("searchResult_phoneNumber").innerText;
+        $.ajax({
+            data: {
+                userID:userID,
+                username: username,
+                email:email,
+                phoneNumber:phoneNumber
+            },
+            url: "/friends/addFriend",
+            dataType: 'json',
+//                        async: false,
+            contentType: 'application/json;charset=UTF-8',
+            cache: false,
+            timeout: 0,
+            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            },
+            success: function (data) {
+                var result = JSON.parse(JSON.stringify(data));
+                if(result.message=='success'){
+                    alert("添加好友成功！")
+                    window.location.reload();
+                }
+            },
+            error: function () {
+                alert("添加好友失败！");
+            }
+        });
+
+    }
+
+    function showDeleteFriendDialog(friendID,username){
+        $('#deleteFriendModal').modal('show');
+        document.getElementById("delete_userID").innerText = friendID;
+        document.getElementById("delete_username").innerText = username;
+    }
+
+    function deleteFriend(){
+        var friendID = document.getElementById("delete_userID").innerText;
+        $.ajax({
+            data: {
+                userID:"<%=user.userID%>",
+                friendID: friendID
+            },
+            url: "/friends/deleteFriend",
+            dataType: 'json',
+//                        async: false,
+            contentType: 'application/json;charset=UTF-8',
+            cache: false,
+            timeout: 0,
+            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            },
+            success: function (data) {
+                var result = JSON.parse(JSON.stringify(data));
+                if(result.message=='success'){
+                    alert("删除好友成功！")
+                    window.location.reload();
+                }
+            },
+            error: function () {
+                alert("删除好友失败！");
+            }
+        });
+
+    }
+
+    function keyListener(){
+        if (event.keyCode==13)  //回车键的键值为13
+            showSearchResult();
+    }
+
+    function getCookieValue(key) {
+        var data = decodeURI(document.cookie).split(";");
+        for(var i=0;i<data.length;i++) {
+            if(data[i].trim().indexOf(key)==0) {
+                return data[i].trim();
+            }
+        }
+    }
+</script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        var cookieValue = getCookieValue('user=');
+        var privilege = cookieValue.substr(cookieValue.length - 2).charAt(0);
+        if (privilege == 1) {
+            $("#side-menu").append('<li>\n' +
+                '          <a href="/index/userManage">\n' +
+                '            <i class="fa fa-cog fa-fw" aria-hidden="true"></i>\n' +
+                '              账户管理\n' +
+                '          </a>\n' +
+                '        </li>')
+        }
+    });
+
+</script>
+
+
+</body>
+
+</html>

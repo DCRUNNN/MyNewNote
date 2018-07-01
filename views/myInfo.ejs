@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My Note</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/stylesheets/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="/vendor/morrisjs/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <script src="/plugins/ckeditor/ckeditor.js"></script>
+
+    <style>
+        .selected{font-weight:bold; background-color:#00B7FF;}
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><%= title %></a>
+        </div>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+            </li>
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+            </li>
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+            </li>
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    </li>
+                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="sidebar-search">
+                        <div class="input-group custom-search-form">
+                            <input type="text" class="form-control search" id="mySearchBT" placeholder="Search..." >
+                            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick="mySearch()">
+                    <i class="fa fa-search"></i>
+                </button>
+              </span>
+                        </div>
+                        <!-- /input-group -->
+                    </li>
+                    <li>
+                        <a href="/"><i class="fa fa-book" aria-hidden="true"></i>  我的笔记本<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level" id="notebook_ul" role="menu">
+                            <%note.forEach(function(note2){%>
+                            <li id="context" data-toggle="context" data-target="#context-menu" onmousedown="right('<%=note2.notebookID%>','<%=note2.title%>','<%=note2.tag%>')">
+                                <a href="/index/showPageMenu/<%=note2.notebookID%>">
+                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                    <span id="<%=note2.notebookID%>"><%=note2.title%></span>
+                                </a>
+                            </li>
+                            <%})%>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation">
+                                <a data-toggle="modal" href="#addNotebookModal" onclick="getNotebookTags()">
+                                    <i class="fa fa-coffee" aria-hidden="true"></i>
+                                    <span>添加笔记本</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="fa fa-envelope fa-fw"></i>  好友圈<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/index/myFriends">
+                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                    <span>我的好友</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/index/sharedPage">
+                                    <i class="fa fa-share-alt" aria-hidden="true"></i>
+                                    <span>分享笔记</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+
+                    <li>
+                        <a href="/index/tagManage"><i class="fa fa-tags fa-fw" aria-hidden="true"></i>  标签管理</a>
+                    </li>
+                    <li>
+                        <a href="/index/myInfo"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> 我的信息</a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+
+    <div id="page-wrapper">
+
+        <div class="panel">
+            <header class="panel-heading">
+                <h4>我的信息</h4>
+            </header>
+
+            <div class="panel-body" >
+                <div class="row">
+                    <aside class="profile-nav col-lg-3">
+                        <div class="panel">
+                            <div class="user-heading round">
+                                <a href="#">
+                                    <img src="/images/profile-avatar.jpg" alt="">
+                                </a>
+                                <h1><%=user.username%></h1>
+                                <p><%=user.email%></p>
+                            </div>
+
+                            <ul class="nav nav-pills nav-stacked">
+                                <li class="active"><a href="/index/myInfo"> <i class="fa fa-user"></i> 我的资料</a></li>
+                                <li><a href="#" onclick="showEditProfilePanel()"> <i class="fa fa-edit"></i> 编辑资料</a></li>
+                                <li><a href="#" onclick="showModifyPasswordPanel()"> <i class="fa fa-edit"></i>修改密码</a></li>
+                            </ul>
+
+                        </div>
+                    </aside>
+                    <aside class="profile-info col-lg-9">
+                        <div class="panel" id="showInfoSection">
+                            <div class="bio-graph-heading">
+                                <h4>我的资料</h4>
+                            </div>
+                            <div class="panel-body bio-graph-info">
+                                <h3 class="">我的资料</h3>
+                                <br>
+                                <div class="form">
+                                    <div class="bio-row">
+                                        <p><span>用户名：</span> <%=user.username%></p>
+                                    </div>
+                                    <br>
+                                    <div class="bio-row">
+                                        <p><span>邮箱： </span> <%=user.email%></p>
+                                    </div>
+                                    <br>
+                                    <div class="bio-row">
+                                        <p><span>联系电话： </span> <%=user.phoneNumber%></p>
+                                    </div>
+                                    <br>
+                                    <div class="bio-row">
+                                        <p><span>操作权限： </span> <%=user.privilege%></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel-footer">
+                                <strong>注：</strong><span>操作权限中0表示您为普通用户，1表示您为管理员用户</span>
+                            </div>
+                        </div>
+
+
+                        <section class="panel" id="editInfoSection" style="display: none;">
+                            <div class="bio-graph-heading">
+                                <h4>编辑个人信息</h4>
+                            </div>
+                            <div class="panel-body bio-graph-info">
+                                <h3>编辑个人信息</h3>
+                                <br>
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label  class="col-lg-2 control-label">用户名</label>
+                                        <div class="col-lg-6">
+                                            <input type="text" class="form-control" id="modify_username" placeholder="" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label  class="col-lg-2 control-label">邮箱</label>
+                                        <div class="col-lg-6">
+                                            <input type="text" class="form-control" id="modify_email" placeholder="" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label  class="col-lg-2 control-label">电话</label>
+                                        <div class="col-lg-6">
+                                            <input type="text" class="form-control" id="modify_phoneNumber" placeholder="" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-10">
+                                            <button type="submit" class="btn btn-default col-lg-offset-1" onclick="modifyUserInfo()">保存</button>
+                                            <button type="button" class="btn btn-default col-lg-offset-5">取消</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+
+                        <section class="panel" id="editPasswordSection" style="display: none;">
+                            <div class="bio-graph-heading">
+                                <h4>修改密码</h4>
+                            </div>
+                            <div class="panel-body bio-graph-info">
+                                <h3>修改密码</h3>
+                                <br>
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label  class="col-lg-3 control-label">当前密码</label>
+                                        <div class="col-lg-6">
+                                            <input type="password" class="form-control" id="previous_password" placeholder="" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label  class="col-lg-3 control-label">新密码</label>
+                                        <div class="col-lg-6">
+                                            <input type="password" class="form-control" id="modify_password" placeholder="" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label  class="col-lg-3 control-label">确认密码</label>
+                                        <div class="col-lg-6">
+                                            <input type="password" class="form-control" id="modify_confirm_password" placeholder="" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <button type="submit" class="btn btn-default col-lg-offset-2" onclick="modifyPassword()">保存</button>
+                                            <button type="button" class="btn btn-default col-lg-offset-5">取消</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+
+
+                    </aside>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+<!-- jQuery -->
+<script src="/vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="/vendor/metisMenu/metisMenu.min.js"></script>
+<script src="/plugins/bootstrap-contextmenu.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/javascripts/sb-admin-2.js"></script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        var cookieValue = getCookieValue('user=');
+        var privilege = cookieValue.substr(cookieValue.length - 2).charAt(0);
+        if (privilege == 1) {
+            $("#side-menu").append('<li>\n' +
+                '          <a href="/index/userManage">\n' +
+                '            <i class="fa fa-cog fa-fw" aria-hidden="true"></i>\n' +
+                '              账户管理\n' +
+                '          </a>\n' +
+                '        </li>')
+        }
+    });
+
+</script>
+
+<script>
+    function showEditProfilePanel(){
+        $("#showInfoSection").slideUp("slow");
+        $("#editPasswordSection").slideUp("slow");
+        $("#editInfoSection").slideDown("slow");
+        $('#modify_username').val("<%=user.username%>");
+        $('#modify_email').val("<%=user.email%>")
+        $('#modify_phoneNumber').val("<%=user.phoneNumber%>")
+    }
+
+    function showModifyPasswordPanel(){
+        $("#showInfoSection").slideUp("slow");
+        $("#editInfoSection").slideUp("slow");
+        $("#editPasswordSection").slideDown("slow");
+    }
+
+    function modifyUserInfo(){
+        var username=  $('#modify_username').val();
+        var email = $('#modify_email').val();
+        var phoneNumber = $('#modify_phoneNumber').val();
+        $.ajax({
+            data: {
+                email:email,
+                username:username,
+                phoneNumber:phoneNumber,
+                password:password
+            },
+            url: "/myInfo/modifyUser",
+            dataType: 'json',
+//                        async: false,
+            contentType: 'application/json;charset=UTF-8',
+            cache: false,
+            timeout: 0,
+            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            },
+            success: function (data) {
+                var result = JSON.parse(JSON.stringify(data));
+                if(result.message=='success'){
+                    alert("修改信息成功！")
+                }
+            },
+            error: function () {
+                alert("修改信息成功啦！");
+                window.location.reload()
+            }
+        });
+
+    }
+
+    function modifyPassword(){
+        var previous_password = $('#previous_password').val();
+        var password = $('#modify_password').val();
+        var confirmPW = $('#modify_confirm_password').val();
+
+        if(previous_password=="<%=user.password%>"){
+            if(password==confirmPW){
+                $.ajax({
+                    data: {
+                        password:password
+                    },
+                    url: "/myInfo/modifyPassword",
+                    dataType: 'json',
+//                        async: false,
+                    contentType: 'application/json;charset=UTF-8',
+                    cache: false,
+                    timeout: 0,
+                    type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+                    headers: {
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    success: function (data) {
+                        var result = JSON.parse(JSON.stringify(data));
+                        if(result.message=='success'){
+                            alert("修改密码成功！")
+                        }
+                    },
+                    error: function () {
+                        alert("修改密码成功啦！");
+                        window.location.reload()
+                    }
+                });
+
+            }else{
+                alert("两次密码输入不一致！")
+            }
+        }else{
+            alert("原密码输入不正确！")
+        }
+
+
+    }
+
+    function getCookieValue(key) {
+        var data = decodeURI(document.cookie).split(";");
+        for(var i=0;i<data.length;i++) {
+            if(data[i].trim().indexOf(key)==0) {
+                return data[i].trim();
+            }
+        }
+    }
+
+</script>
+
+</body>
+
+</html>

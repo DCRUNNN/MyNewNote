@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>My Note</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/stylesheets/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="/vendor/morrisjs/morris.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="/vendor/datatables-plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="/vendor/datatables-responsive/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <script src="/plugins/ckeditor/ckeditor.js"></script>
+
+    <style>
+        .selected{font-weight:bold; background-color:#00B7FF;}
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><%= title %></a>
+        </div>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+            </li>
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+            </li>
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+            </li>
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    </li>
+                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="sidebar-search">
+                        <div class="input-group custom-search-form">
+                            <input type="text" class="form-control search" id="mySearchBT" placeholder="Search..." >
+                            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick="mySearch()">
+                    <i class="fa fa-search"></i>
+                </button>
+              </span>
+                        </div>
+                        <!-- /input-group -->
+                    </li>
+                    <li>
+                        <a href="/"><i class="fa fa-book" aria-hidden="true"></i>  我的笔记本<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level" id="notebook_ul" role="menu">
+                            <%note.forEach(function(note2){%>
+                            <li id="context" data-toggle="context" data-target="#context-menu" onmousedown="right('<%=note2.notebookID%>','<%=note2.title%>','<%=note2.tag%>')">
+                                <a href="/index/showPageMenu/<%=note2.notebookID%>">
+                                    <i class="fa fa-book" aria-hidden="true"></i>
+                                    <span id="<%=note2.notebookID%>"><%=note2.title%></span>
+                                </a>
+                            </li>
+                            <%})%>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation">
+                                <a data-toggle="modal" href="#addNotebookModal" onclick="getNotebookTags()">
+                                    <i class="fa fa-coffee" aria-hidden="true"></i>
+                                    <span>添加笔记本</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="fa fa-envelope fa-fw"></i>  好友圈<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/index/myFriends">
+                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                    <span>我的好友</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/index/sharedPage">
+                                    <i class="fa fa-share-alt" aria-hidden="true"></i>
+                                    <span>分享笔记</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+
+                    <li>
+                        <a href="/index/tagManage"><i class="fa fa-tags fa-fw" aria-hidden="true"></i>  标签管理</a>
+                    </li>
+                    <li>
+                        <a href="/index/myInfo"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> 我的信息</a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+
+    <div id="page-wrapper">
+
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    账户管理
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="adv-table">
+                        <table class="table" id="dataTables-example" style="text-align:center">
+                            <thead>
+                            <tr>
+                                <th style="text-align:center">用户编号</th>
+                                <th style="text-align:center">用户名</th>
+                                <th style="text-align:center">邮箱</th>
+                                <th style="text-align:center">电话号码(s)</th>
+                                <th style="text-align:center">权限</th>
+                                <th style="text-align:center">修改</th>
+                                <th style="text-align:center">删除</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <%users.forEach(function(user){%>
+                            <tr class="gradeA">
+                                <td><%=user.userID%></td>
+                                <td><%=user.username%></td>
+                                <td><%=user.email%></td>
+                                <td><%=user.phoneNumber%></td>
+                                <td><%=user.privilege%></td>
+                                <td><a class="" data-toggle="modal" href="#modifyUserModal" onclick="setDataToDialog('<%=user.userID%>','<%=user.username%>','<%=user.email%>','<%=user.phoneNumber%>','<%=user.privilege%>')"><i class="fa fa-edit"></i></a></td>
+                                <td><a class="" data-toggle="modal" href="#deleteUserModal" onclick="setDataToDeleteDialog('<%=user.userID%>','<%=user.username%>')"><i class="fa fa-close" ></i></a></td>
+                            </tr>
+                            <%})%>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modifyUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Modify User</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label  class="col-lg-3 control-label">userID</label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" id="userID" name="userID" placeholder="" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-lg-3 control-label">Username</label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" id="username" name="username" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-lg-3 control-label">Email</label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" id="email" name="email" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-lg-3 control-label">Telephone</label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" id="telephone" name="telephone" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-lg-3 control-label">Privilege</label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" id="privilege" name="privilege" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <button type="button" class="btn btn-default btn-lg btn-block" onclick="modifyUser()">Modify</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">是否确认删除<span id="delete_username"></span>用户？</div>
+                <p class="hidden" id="delete_userID"></p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="deleteUser()">删除</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="deleteNotebookModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">是否确认删除笔记：<code id="delete_notebookTitle"></code>?</div>
+                <p class="hidden" id="delete_notebookID"></p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="deleteNotebook()">删除</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+</div>
+
+<!-- jQuery -->
+<script src="/vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="/vendor/metisMenu/metisMenu.min.js"></script>
+<script src="/plugins/bootstrap-contextmenu.js"></script>
+
+<!-- DataTables JavaScript -->
+<script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/javascripts/sb-admin-2.js"></script>
+
+<script>
+
+    function getCookieValue(key) {
+        var data = decodeURI(document.cookie).split(";");
+        for(var i=0;i<data.length;i++) {
+            if(data[i].trim().indexOf(key)==0) {
+                return data[i].trim();
+            }
+        }
+    }
+</script>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        var cookieValue = getCookieValue('user=');
+        var privilege = cookieValue.substr(cookieValue.length - 2).charAt(0);
+        if (privilege == 1) {
+            $("#side-menu").append('<li>\n' +
+                '          <a href="/index/userManage">\n' +
+                '            <i class="fa fa-cog fa-fw" aria-hidden="true"></i>\n' +
+                '              账户管理\n' +
+                '          </a>\n' +
+                '        </li>')
+        }
+    });
+
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+            responsive: true
+        });
+    });
+</script>
+
+<script>
+    function right(id,title) {
+        var e=window.event;
+        if(e.button=="2"){
+            document.getElementById("delete_id").innerText = id;
+            document.getElementById("delete_title").innerText = title;
+
+        }
+    }
+
+    function setDataToDialog(userID,username,email,telephone,privilege){
+        $('#userID').val(userID);
+        $("#username").val(username);
+        $("#email").val(email);
+        $("#telephone").val(telephone);
+        $("#privilege").val(privilege);
+    }
+
+    function setDataToDeleteDialog(userID,username){
+        document.getElementById("delete_userID").innerText =userID;
+        document.getElementById("delete_username").innerText =username;
+    }
+
+    function setDataToDeleteNotebookDialog(){
+        document.getElementById("delete_notebookID").innerText = document.getElementById("delete_id").innerText;
+        document.getElementById("delete_notebookTitle").innerText = document.getElementById("delete_title").innerText;
+    }
+
+    function modifyUser(){
+        var userID = document.getElementById("userID").value;
+        var username = document.getElementById("username").value;
+        var email = document.getElementById("email").value;
+        var phoneNumber = document.getElementById("telephone").value;
+        var privilege = document.getElementById("privilege").value;
+
+        $.ajax({
+            data: {userID: userID, username: username, email: email, phoneNumber: phoneNumber, privilege: privilege},
+            url: "/userManage/modifyUser",
+            dataType: 'json',
+//                        async: false,
+            contentType: 'application/json;charset=UTF-8',
+            cache: false,
+            timeout: 0,
+            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            },
+            success: function () {
+                alert("修改成功！");
+                window.location.reload();
+            },
+            error: function () {
+                alert("修改失败！");
+            }
+        });
+    }
+
+    function deleteUser() {
+        var userID = document.getElementById("delete_userID").innerText;
+        $.ajax({
+            data: {userID: userID},
+            url: "/userManage/deleteUser",
+            dataType: 'json',
+//                        async: false,
+            contentType: 'application/json;charset=UTF-8',
+            cache: false,
+            timeout: 0,
+            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            },
+            success: function () {
+                alert("删除成功！");
+                window.location.reload();
+            },
+            error: function () {
+                alert("删除失败！");
+            }
+        });
+
+
+    }
+
+    function deleteNotebook(){
+        var notebookID = document.getElementById("delete_notebookID").innerText;
+
+        $.ajax({
+            data: {notebookID: notebookID},
+            url: "/index/deleteNotebook",
+            dataType: 'json',
+//                        async: false,
+            contentType: 'application/json;charset=UTF-8',
+            cache: false,
+            timeout: 0,
+            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            },
+            success: function (data) {
+                alert("删除成功！");
+                window.location.reload();
+            },
+            error: function () {
+                alert("删除成功！");
+                window.location.reload();
+            }
+        });
+    }
+
+    function getCookieValue(key) {
+        var data = decodeURI(document.cookie).split(";");
+        for(var i=0;i<data.length;i++) {
+            if(data[i].trim().indexOf(key)==0) {
+                return data[i].trim();
+            }
+        }
+    }
+</script>
+
+</body>
+
+</html>
