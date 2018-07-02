@@ -8,7 +8,7 @@ var User = sequelize.import("../models/user");
 // var User = require('../models/user');
 
 router.get('/',function (req,res,next) {
-    res.render('signUp', {title: '用户注册界面aaaa'});
+    res.render('signUp', {title: '很高兴遇见你'});
 })
 
 router.post('/mySignUp',function (request, response,next) {

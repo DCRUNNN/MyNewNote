@@ -19,6 +19,7 @@
 
   <!-- Custom CSS -->
   <link href="/stylesheets/sb-admin-2.css" rel="stylesheet">
+  <link href="/stylesheets/tasks.css" rel="stylesheet">
 
   <!-- Morris Charts CSS -->
   <link href="/vendor/morrisjs/morris.css" rel="stylesheet">
@@ -170,7 +171,7 @@
     </div>
     <div class="row">
 
-      <div class="col-lg-3">
+      <div class="col-lg-3" style="height: 100%;">
         <div class="panel panel-default">
           <div class="panel-heading">
             <i class="fa fa-bell fa-fw"></i><%=currentNotebook.title%>
@@ -249,6 +250,7 @@
                   </form>
 
                   <div class="form-group">
+                    <button class="btn btn-default pull-left" id="showMenuBT"  data-toggle="modal" href="#backWarningModal" style="display: none">返回</button>
                     <button class="btn btn-default pull-right" id="savePageBT" onclick="savePage('<%=pageContent.pageID%>')">保存</button>
                   </div>
                 <!--</div>-->
@@ -500,7 +502,7 @@
 
               <br>
               <div class="add-task-row">
-                <button class="btn btn-success btn-block" onclick="sharePage()">分享给Ta</button>
+                <button class="btn btn-primary btn-block" onclick="sharePage()">分享给Ta</button>
               </div>
             </div>
           </section>
@@ -570,12 +572,29 @@
 
 <script>
 
+    $("#notePanel").click(function () {
+        $("#notePanel").slideUp("slow");
+        $("#writeNotePanel").show();
+        $("#writeNotePanel").slideDown("slow");
+        $("#side-menu").animate({width: 'toggle'}, "slow");
+        $("#side-menu").hide();
+        $("#page-wrapper").animate({'margin-left': '0px'}, "slow");
+        $("#pageMenuBody").animate({'width': '18%'}, "slow");
+//        $("#newPageTitle").val("sdfdsf");
+        getElementByValue("<%=pageContent.title%>");
+//        $("#updateNoteBT").hide();
+//        $('#downloadToPdfBT').hide();
+//        $('#sharePageBT').hide();
+//        $('#captureBT').hide();
+        $("#showMenuBT").show();
+    })
+
     $("#updateNoteBT").click(function(){
         $("#notePanel").slideUp("slow");
         $("#writeNotePanel").show();
         $("#writeNotePanel").slideDown("slow");
 //        $("#sidebar").animate({width: 'toggle'}, "slow");
-        $("#sidebar").hide();
+//        $("#sidebar").hide();
 //        $("#main-content").animate({'margin-left': '0px'}, "slow");
 //        $("#pageMenuBody").animate({'width': '18%'}, "slow");
 //        $("#newPageTitle").val("sdfdsf");
@@ -584,7 +603,7 @@
 //        $('#downloadToPdfBT').hide();
 //        $('#sharePageBT').hide();
 //        $('#captureBT').hide();
-//        $("#showMenuBT").show();
+        $("#showMenuBT").show();
     });
 
     function getElementByValue(value) {
@@ -753,9 +772,9 @@
                     CKEDITOR.instances.editor1.setData(result.pageContent.content);
                     getElementByValue(result.pageContent.title);
                     $("#sharePageBT").show();
-                    $('#downloadToPdfBT').show();
+//                    $('#downloadToPdfBT').show();
                     $("#updateNoteBT").show();
-                    $('#captureBT').show();
+//                    $('#captureBT').show();
                     $('#showMenuBT').hide();
                 }else{
                     alert("显示笔记失败！请刷新重试！");
@@ -770,13 +789,13 @@
     }
 
     function showMenu() {
-        $("#sidebar").show();
-        $("#main-content").animate({'margin-left': '210px'}, "slow");
+        $("#side-menu").show();
+        $("#page-wrapper").animate({'margin-left': '220px'}, "slow");
         $("#pageMenuBody").animate({'width': '25%'}, "slow");
         $("#showMenuBT").hide();
-        $("#showMenuBT2").hide();
-        $('#downloadToPdfBT').show();
-        $('#captureBT').show();
+//        $("#showMenuBT2").hide();
+//        $('#downloadToPdfBT').show();
+//        $('#captureBT').show();
         $('#sharePageBT').show();
         $("#updateNoteBT").show();
         $("#notePanel").slideDown("slow");
@@ -1208,6 +1227,7 @@
         }
 
         document.getElementById("noteContent").innerHTML = "<%=pageContent.content%>";
+
     });
 
     function getCookieValue(key) {

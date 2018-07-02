@@ -10,7 +10,7 @@ var Page = sequelize.import('../models/page');
 // var User = require('../models/user');
 
 router.get('/', function (req, res, next) {
-    res.render('login',{title: '请登录'});
+    res.render('login',{title: '很高兴遇见你'});
 });
 
 router.get('/login',function (req,res,next) {
@@ -19,7 +19,7 @@ router.get('/login',function (req,res,next) {
 
 router.get('/signUp',function (req,res,next) {
     console.log("注册！");
-    res.render('signUp',{title: '用户注册界面'});
+    res.render('signUp',{title: '很高兴遇见你'});
 
 })
 
