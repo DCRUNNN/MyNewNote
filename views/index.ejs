@@ -60,25 +60,28 @@
     <!-- /.navbar-header -->
 
     <ul class="nav navbar-top-links navbar-right">
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
-        </a>
-      </li>
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
-        </a>
-      </li>
-      <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
-        </a>
-      </li>
+      <!--<li class="dropdown">-->
+        <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#">-->
+          <!--<i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>-->
+        <!--</a>-->
+      <!--</li>-->
+      <!--<li class="dropdown">-->
+        <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#">-->
+          <!--<i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>-->
+        <!--</a>-->
+      <!--</li>-->
+      <!--<li class="dropdown">-->
+        <!--<a class="dropdown-toggle" data-toggle="dropdown" href="#">-->
+          <!--<i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>-->
+        <!--</a>-->
+      <!--</li>-->
       <!-- /.dropdown -->
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-          <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+          <i class="fa fa-user fa-fw">
+          </i>
+          <span class="username"><%= user.username %></span>
+          <i class="fa fa-caret-down"></i>
         </a>
         <ul class="dropdown-menu dropdown-user">
           <li><a href="/index/myInfo"><i class="fa fa-user fa-fw"></i> User Profile</a>
@@ -725,13 +728,18 @@
                 if (result.message == 'success') {
                     alert("保存笔记成功！");
 //                  window.location.reload();
-                    var liList = document.getElementById("pageMenu").getElementsByTagName("li");
-                    for (var i = 0; i < liList.length; i++) {
-                        if (liList[i].innerText.trim() == title) {
-                            liList[i].innerHTML = '<a><i class="fa fa-book">&nbsp;&nbsp;' + document.getElementById("newPageTitle").value + '</i></a>'
+                    var aList = document.getElementById("pageMenu").getElementsByTagName("a");
+                    for (var i = 0; i < aList.length; i++) {
+                        if (aList[i].innerText.trim().split(' ')[0] == title) {
+                            aList[i].innerHTML = '<i class="fa fa-book fa-fw"></i>&nbsp;&nbsp;' + document.getElementById("newPageTitle").value
+                                + '<span class="pull-right text-muted small"><em>'+aList[i].innerText.trim().split(' ')[1]+'</em></span>'
                         }
                     }
                     document.getElementById("noteContent").innerHTML = result.page.content;
+                    $("#side-menu").show();
+                    $("#page-wrapper").animate({'margin-left': '220px'}, "slow");
+                    $("#pageMenuBody").animate({'width': '25%'}, "slow");
+                    $("#showMenuBT").hide();
                     $("#notePanel").slideDown("slow");
                     $("#writeNotePanel").slideUp("slow");
                 } else {
