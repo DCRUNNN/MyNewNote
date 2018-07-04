@@ -191,7 +191,7 @@
               <%})%>
             </div>
             <!-- /.list-group -->
-            <a class="btn btn-default btn-block" data-toggle="modal" href="#addPageModal" onclick="getPageTags()">Add</a>
+            <a class="btn btn-default btn-block" data-toggle="modal" href="#addPageModal" onclick="getPageTags()">新建笔记</a>
           </div>
           <!-- /.panel-body -->
         </div>
@@ -290,18 +290,18 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Add Page</h4>
+          <h4 class="modal-title">新建笔记</h4>
         </div>
         <div class="modal-body">
           <form class="form-horizontal" role="form">
             <div class="form-group">
-              <label  class="col-lg-3 control-label">Page Title</label>
+              <label  class="col-lg-3 control-label">笔记标题</label>
               <div class="col-lg-9">
                 <input type="text" class="form-control" id="page_title" placeholder="">
               </div>
             </div>
             <div class="form-group">
-              <label  class="col-lg-3 control-label">Page Tag</label>
+              <label  class="col-lg-3 control-label">笔记标签</label>
               <div class="col-lg-7">
                 <!--<input type="text" class="form-control" id="page_tag" placeholder="">-->
                 <select class="form-control" id="page_tag">
@@ -309,23 +309,23 @@
                 </select>
               </div>
               <div class="col-lg-2">
-                <a class="btn btn-default btn-sm" data-toggle="modal" id="addNewPageTag">Add</a>
+                <a class="btn btn-default btn-sm" data-toggle="modal" id="addNewPageTag">新建标签</a>
               </div>
             </div>
 
             <div class="form-group" id="newPageTagDiv" style="display:none;">
-              <label  class="col-lg-3 control-label">New Tag</label>
+              <label  class="col-lg-3 control-label">新&nbsp;&nbsp标&nbsp;&nbsp;签</label>
               <div class="col-lg-7">
                 <input type="text" class="form-control" id="page_newTag" placeholder="">
               </div>
               <div class="col-lg-2">
-                <a class="btn btn-primary btn-sm" onclick="addPageTag()">确定</a>
+                <a class="btn btn-default btn-sm" onclick="addPageTag()">添&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;加</a>
               </div>
             </div>
 
             <div class="form-group">
               <div class="col-lg-12">
-                <button type="button" class="btn btn-default btn-lg btn-block" onclick="addPage()">Create</button>
+                <button type="button" class="btn btn-default btn-block" onclick="addPage()">确定</button>
               </div>
             </div>
           </form>
@@ -339,41 +339,41 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Add Notebook</h4>
+          <h4 class="modal-title">添加笔记本</h4>
         </div>
         <div class="modal-body">
           <form class="form-horizontal" role="form">
             <div class="form-group">
-              <label  class="col-lg-3 control-label">Notebook Title</label>
+              <label  class="col-lg-3 control-label">笔记本标题</label>
               <div class="col-lg-9">
                 <input type="text" class="form-control" id="notebook_title" placeholder="">
               </div>
             </div>
             <div class="form-group">
-              <label  class="col-lg-3 control-label">Notebook Tag</label>
+              <label  class="col-lg-3 control-label">笔记本标签</label>
               <div class="col-lg-7">
                 <select class="form-control" id="notebook_tag">
 
                 </select>
               </div>
               <div class="col-lg-2">
-                <a class="btn btn-primary btn-sm" data-toggle="modal" id="addNewNotebookTag">Add</a>
+                <a class="btn btn-default btn-sm" data-toggle="modal" id="addNewNotebookTag">新建标签</a>
               </div>
             </div>
 
             <div class="form-group" id="newNotebookTagDiv" style="display:none;">
-              <label  class="col-lg-3 control-label">New Tag</label>
+              <label  class="col-lg-3 control-label">新&nbsp;&nbsp;&nbsp;标&nbsp;&nbsp;&nbsp;&nbsp;签</label>
               <div class="col-lg-7">    
                 <input type="text" class="form-control" id="notebook_newTag" placeholder="">
               </div>
               <div class="col-lg-2">
-                <a class="btn btn-primary btn-sm" onclick="addNotebookTag()">确定</a>
+                <a class="btn btn-default btn-sm" onclick="addNotebookTag()">添&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;加</a>
               </div>
             </div>
 
             <div class="form-group">
               <div class="col-lg-12">
-                <button type="button" class="btn btn-default btn-lg btn-block" onclick="addNotebook()">Create</button>
+                <button type="button" class="btn btn-default btn-block" onclick="addNotebook()">确定</button>
               </div>
             </div>
           </form>
@@ -413,18 +413,18 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Modify Notebook</h4>
+          <h4 class="modal-title">修改笔记本信息</h4>
         </div>
         <div class="modal-body">
           <form class="form-horizontal" role="form">
             <div class="form-group">
-              <label  class="col-lg-3 control-label">Notebook Title</label>
+              <label  class="col-lg-3 control-label">笔记本标题</label>
               <div class="col-lg-9">
                 <input type="text" class="form-control" id="modify_notebook_title" name="modify_notebook_title" placeholder="">
               </div>
             </div>
             <div class="form-group">
-              <label  class="col-lg-3 control-label">Tag</label>
+              <label  class="col-lg-3 control-label">笔记本标签</label>
               <div class="col-lg-9">
                 <input type="text" class="form-control" id="modify_notebook_tag" name="modify_notebook_tag" placeholder="">
               </div>
@@ -432,59 +432,7 @@
             <p class="hidden" id="modify_notebookID"></p>
             <div class="form-group">
               <div class="col-lg-12">
-                <button type="button" class="btn btn-default btn-lg btn-block" onclick="modifyNotebook()">Modify</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-
-  <!--<div class="modal fade" id="addPageTagModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
-    <!--<div class="modal-dialog">-->
-      <!--<div class="modal-content">-->
-        <!--<div class="modal-header">-->
-          <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
-          <!--<h4 class="modal-title">Add Tag of Page</h4>-->
-        <!--</div>-->
-        <!--<div class="modal-body">-->
-          <!--<form class="form-horizontal" role="form">-->
-            <!--<div class="form-group">-->
-              <!--<label  class="col-lg-3 control-label">Page Tag</label>-->
-              <!--<div class="col-lg-9">-->
-                <!--<input type="text" class="form-control" id="page_newTag" placeholder="">-->
-              <!--</div>-->
-            <!--</div>-->
-            <!--<div class="form-group">-->
-              <!--<div class="col-lg-12">-->
-                <!--<button type="button" class="btn btn-default btn-lg btn-block" onclick="addPageTag()">Create</button>-->
-              <!--</div>-->
-            <!--</div>-->
-          <!--</form>-->
-        <!--</div>-->
-      <!--</div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
-    <!--</div>&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
-  <!--</div>&lt;!&ndash; /.modal &ndash;&gt;-->
-
-  <div class="modal fade" id="addNotebookTagModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Add Tag of Notebook</h4>
-        </div>
-        <div class="modal-body">
-          <form class="form-horizontal" role="form">
-            <div class="form-group">
-              <label  class="col-lg-3 control-label">Notebook Tag</label>
-              <div class="col-lg-9">
-                <input type="text" class="form-control" id="notebook_newTag" placeholder="">
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="col-lg-12">
-                <button type="button" class="btn btn-default btn-lg btn-block" onclick="addNotebookTag()">Create</button>
+                <button type="button" class="btn btn-default btn-block" onclick="modifyNotebook()">Modify</button>
               </div>
             </div>
           </form>
@@ -595,14 +543,13 @@
 
 <script>
 
+    $("#addNewPageTag").click(function () {
+        $("#newPageTagDiv").toggle()
+    })
 
-  $("#addNewPageTag").click(function () {
-      $("#newPageTagDiv").toggle()
-  })
-
-  $("#addNewNotebookTag").click(function () {
-      $("#newNotebookTagDiv").toggle()
-  })
+    $("#addNewNotebookTag").click(function () {
+        $("#newNotebookTagDiv").toggle()
+    })
     $("#notePanel").click(function () {
         $("#notePanel").slideUp("slow");
         $("#writeNotePanel").show();
@@ -1011,6 +958,8 @@
                 $("#page_tag").append(
                     "<option>"+tag+ "</option>"
                 )
+                $("#page_tag").val(tag);
+                $('#newPageTagDiv').hide();
             },
             error: function () {
                 alert("添加笔记标签失败！");
@@ -1075,6 +1024,8 @@
                 $("#notebook_tag").append(
                     "<option>"+tag+ "</option>"
                 )
+                $("#notebook_tag").val(tag);
+                $("#newNotebookTagDiv").hide();
             },
             error: function () {
                 alert("添加笔记本标签失败！");

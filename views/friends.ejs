@@ -101,10 +101,10 @@
                         <div class="input-group custom-search-form">
                             <input type="text" class="form-control search" id="mySearchBT" placeholder="Search..." >
                             <span class="input-group-btn">
-                <button class="btn btn-default" type="button" onclick="mySearch()">
-                    <i class="fa fa-search"></i>
-                </button>
-              </span>
+                                <button class="btn btn-default" type="button" onclick="mySearch()">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
                         </div>
                         <!-- /input-group -->
                     </li>
@@ -172,11 +172,13 @@
                 </header>
                 <form class="bs-example bs-example-form" role="form" action="#">
                     <div class="row">
-                        <div class="col-md-6 pull-right">
+                        <div class="col-md-4 pull-right">
                             <div class="input-group">
-                                <input type="text" class="form-control" id="search_username" placeholder="Search User"  onkeydown="keyListener()">
+                                <input type="text" class="form-control" id="search_username" placeholder="查找用户"  onkeydown="keyListener()">
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" onclick="showSearchResult()" value="Search">Search</button>
+                                    <button class="btn btn-default" type="button" onclick="showSearchResult()" value="Search">
+                                        <i class="fa fa-search"></i>
+                                    </button>
                                 </span>
                             </div>
                         </div>
@@ -195,7 +197,7 @@
                                 <div class="header">
                                     <strong class="primary-font" style="font-size: 20px"><%=friend.friendUsername%></strong>
                                     <small class="pull-right text-muted">
-                                        <!--<i class="fa fa-clock-o fa-fw"></i> 12 mins ago-->
+                                        <i class="fa fa-smile-o fa-fw"></i>
                                     </small>
                                 </div>
                                 <p>
@@ -205,7 +207,7 @@
                                     <label class="control-label">联系方式：</label>
                                     <a href="mailto:#"><%=friend.friendPhoneNumber%></a>
                                     <!--</address>-->
-                                    <button class="btn btn-default pull-right" onclick="showDeleteFriendDialog('<%=friend.friendID%>','<%=friend.friendUsername%>')">删除好友</button>
+                                    <button class="btn btn-default btn-sm pull-right" onclick="showDeleteFriendDialog('<%=friend.friendID%>','<%=friend.friendUsername%>')">删除好友</button>
                                 </p>
                             </div>
                         </li>
@@ -267,6 +269,84 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
 
+        <div class="modal fade" id="addNotebookModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">添加笔记本</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label  class="col-lg-3 control-label">笔记本标题</label>
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" id="notebook_title" placeholder="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label  class="col-lg-3 control-label">笔记本标签</label>
+                                <div class="col-lg-7">
+                                    <select class="form-control" id="notebook_tag">
+
+                                    </select>
+                                </div>
+                                <div class="col-lg-2">
+                                    <a class="btn btn-default btn-sm" data-toggle="modal" id="addNewNotebookTag">新建标签</a>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="newNotebookTagDiv" style="display:none;">
+                                <label  class="col-lg-3 control-label">新&nbsp;&nbsp;&nbsp;标&nbsp;&nbsp;&nbsp;&nbsp;签</label>
+                                <div class="col-lg-7">
+                                    <input type="text" class="form-control" id="notebook_newTag" placeholder="">
+                                </div>
+                                <div class="col-lg-2">
+                                    <a class="btn btn-default btn-sm" onclick="addNotebookTagSideBar()">添&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;加</a>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-lg-12">
+                                    <button type="button" class="btn btn-default btn-block" onclick="addNotebook()">确定</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <div class="modal fade" id="mySearchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">搜索结果</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table"  style="text-align:center">
+                            <thead>
+                            <tr>
+                                <th style="text-align:center">ID</th>
+                                <th style="text-align:center">Title</th>
+                                <th style="text-align:center">Tag</th>
+                                <th style="text-align:center">类型</th>
+                            </tr>
+                            </thead>
+                            <tbody id="mySearchContent">
+                            <tr class="">
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">好的</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
 
     </div>
     </div>
@@ -288,6 +368,10 @@
 <script src="/javascripts/sb-admin-2.js"></script>
 
 <script>
+
+    $("#addNewNotebookTag").click(function () {
+        $("#newNotebookTagDiv").toggle()
+    })
 
     function showSearchResult(){
         var username=document.getElementById("search_username").value;
@@ -417,6 +501,152 @@
             }
         }
     }
+
+    function getNotebookTags() {
+        $.ajax({
+            data: {},
+            url: "/index/getAllNotebookTags",
+            dataType: 'json',
+//                        async: false,
+            contentType: 'application/json;charset=UTF-8',
+            cache: false,
+            timeout: 0,
+            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            },
+            success: function (data) {
+                var result = JSON.parse(JSON.stringify(data));
+                if (result.message == 'success') {
+                    var data = result.data;
+                    for(var i=0; i<data.length;i++){
+                        $("#notebook_tag").append(
+                            "<option>"+data[i].value+ "</option>"
+                        )
+                    }
+                } else {
+                    alert("获取笔记本标签信息失败！请刷新重试！");
+                }
+            },
+            error: function () {
+                alert("获取笔记本标签信息失败！请刷新重试！");
+                window.location.reload();
+            }
+        });
+
+    }
+
+    function addNotebookTagSideBar(){
+        var tag = document.getElementById("notebook_newTag").value;
+        $.ajax({
+            data: {
+                notebookTag:tag
+            },
+            url: "/tagManage/addNotebookTag",
+            dataType: 'json',
+//                        async: false,
+            contentType: 'application/json;charset=UTF-8',
+            cache: false,
+            timeout: 0,
+            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            },
+            success: function () {
+                alert("添加笔记本标签成功！");
+                $("#addNotebookTagModal").modal("hide");
+                $("#notebook_tag").append(
+                    "<option>"+tag+ "</option>"
+                )
+                $("#notebook_tag").val(tag);
+                $("#newNotebookTagDiv").hide();
+            },
+            error: function () {
+                alert("添加笔记本标签失败！");
+            }
+        });
+    }
+
+    function addNotebook() {
+        $.ajax({
+            data: {
+                title: document.getElementById("notebook_title").value,
+                tag: $('#notebook_tag').children('option:selected').val()
+            },
+            url: "/index/addNotebook",
+            dataType: 'json',
+//                        async: false,
+            contentType: 'application/json;charset=UTF-8',
+            cache: false,
+            timeout: 0,
+            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            },
+            success: function () {
+                alert("添加笔记本成功！");
+                window.location.reload();
+            },
+            error: function () {
+                alert("添加笔记本失败！");
+            }
+        });
+    }
+
+    function mySearch(){
+        var input = $('#mySearchBT').val();
+
+        $.ajax({
+            data: {input:input},
+            url: "/index/mySearch",
+            dataType: 'json',
+//                        async: false,
+            contentType: 'application/json;charset=UTF-8',
+            cache: false,
+            timeout: 0,
+            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            },
+            success: function (data) {
+                var result = JSON.parse(JSON.stringify(data));
+
+                var data1 = result.notebookData;
+                var data2 = result.pageData;
+
+                $("#mySearchContent").empty();
+
+                for(var i=0;i<data1.length;i++) {
+                    $("#mySearchContent").append(
+                        "<tr><td>"+data1[i].notebookID+
+                        "</td><td>"+data1[i].title+
+                        "</td><td>"+data1[i].tag+
+                        "</td><td>"+"笔记本"+
+                        "</td><tr>"
+                    )
+                }
+
+                for(var i=0;i<data2.length;i++) {
+                    $("#mySearchContent").append(
+                        "<tr><td>"+data2[i].pageID+
+                        "</td><td>"+data2[i].title+
+                        "</td><td>"+data2[i].tag+
+                        "</td><td>"+"笔记"+
+                        "</td><tr>"
+                    )
+                }
+
+                $('#mySearchModal').modal('show');
+            },
+            error: function () {
+                alert("分享失败，请刷新重试！");
+            }
+        });
+
+
+    }
+
+
 </script>
 
 
