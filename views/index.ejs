@@ -309,7 +309,17 @@
                 </select>
               </div>
               <div class="col-lg-2">
-                <a class="btn btn-default btn-sm" data-toggle="modal" href="#addPageTagModal">Add</a>
+                <a class="btn btn-default btn-sm" data-toggle="modal" id="addNewPageTag">Add</a>
+              </div>
+            </div>
+
+            <div class="form-group" id="newPageTagDiv" style="display:none;">
+              <label  class="col-lg-3 control-label">New Tag</label>
+              <div class="col-lg-7">
+                <input type="text" class="form-control" id="page_newTag" placeholder="">
+              </div>
+              <div class="col-lg-2">
+                <a class="btn btn-primary btn-sm" onclick="addPageTag()">确定</a>
               </div>
             </div>
 
@@ -347,7 +357,17 @@
                 </select>
               </div>
               <div class="col-lg-2">
-                <a class="btn btn-primary btn-sm" data-toggle="modal" href="#addNotebookTagModal">Add</a>
+                <a class="btn btn-primary btn-sm" data-toggle="modal" id="addNewNotebookTag">Add</a>
+              </div>
+            </div>
+
+            <div class="form-group" id="newNotebookTagDiv" style="display:none;">
+              <label  class="col-lg-3 control-label">New Tag</label>
+              <div class="col-lg-7">    
+                <input type="text" class="form-control" id="notebook_newTag" placeholder="">
+              </div>
+              <div class="col-lg-2">
+                <a class="btn btn-primary btn-sm" onclick="addNotebookTag()">确定</a>
               </div>
             </div>
 
@@ -421,31 +441,31 @@
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
 
-  <div class="modal fade" id="addPageTagModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Add Tag of Page</h4>
-        </div>
-        <div class="modal-body">
-          <form class="form-horizontal" role="form">
-            <div class="form-group">
-              <label  class="col-lg-3 control-label">Page Tag</label>
-              <div class="col-lg-9">
-                <input type="text" class="form-control" id="page_newTag" placeholder="">
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="col-lg-12">
-                <button type="button" class="btn btn-default btn-lg btn-block" onclick="addPageTag()">Create</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+  <!--<div class="modal fade" id="addPageTagModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">-->
+    <!--<div class="modal-dialog">-->
+      <!--<div class="modal-content">-->
+        <!--<div class="modal-header">-->
+          <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+          <!--<h4 class="modal-title">Add Tag of Page</h4>-->
+        <!--</div>-->
+        <!--<div class="modal-body">-->
+          <!--<form class="form-horizontal" role="form">-->
+            <!--<div class="form-group">-->
+              <!--<label  class="col-lg-3 control-label">Page Tag</label>-->
+              <!--<div class="col-lg-9">-->
+                <!--<input type="text" class="form-control" id="page_newTag" placeholder="">-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+              <!--<div class="col-lg-12">-->
+                <!--<button type="button" class="btn btn-default btn-lg btn-block" onclick="addPageTag()">Create</button>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</form>-->
+        <!--</div>-->
+      <!--</div>&lt;!&ndash; /.modal-content &ndash;&gt;-->
+    <!--</div>&lt;!&ndash; /.modal-dialog &ndash;&gt;-->
+  <!--</div>&lt;!&ndash; /.modal &ndash;&gt;-->
 
   <div class="modal fade" id="addNotebookTagModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -575,6 +595,14 @@
 
 <script>
 
+
+  $("#addNewPageTag").click(function () {
+      $("#newPageTagDiv").toggle()
+  })
+
+  $("#addNewNotebookTag").click(function () {
+      $("#newNotebookTagDiv").toggle()
+  })
     $("#notePanel").click(function () {
         $("#notePanel").slideUp("slow");
         $("#writeNotePanel").show();
@@ -591,6 +619,8 @@
 //        $('#captureBT').hide();
         $("#showMenuBT").show();
     })
+
+
 
     $("#updateNoteBT").click(function(){
         $("#notePanel").slideUp("slow");
