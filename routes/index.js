@@ -238,9 +238,11 @@ router.get('/sharePage', function (request, response, next) {
             title: request.query.title,
             content: request.query.content,
             privilege: request.query.privilege,
-            pageID: request.query.pageID
+            pageID: request.query.pageID,
+            thumbs:0
         };
-        SharedPage.create(sharedPage).then(function(msg){});
+        SharedPage.create(sharedPage).then(function(msg){
+        });
     }
 
     return response.json({
