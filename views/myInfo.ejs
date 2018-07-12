@@ -61,25 +61,10 @@
         <ul class="nav navbar-top-links navbar-right">
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
-                </a>
-            </li>
-            <!-- /.dropdown -->
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-tasks fa-fw"></i> <i class="fa fa-caret-down"></i>
-                </a>
-            </li>
-            <!-- /.dropdown -->
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
-                </a>
-            </li>
-            <!-- /.dropdown -->
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    <i class="fa fa-user fa-fw">
+                    </i>
+                    <span class="username"><%= user.username %></span>
+                    <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
                     <li><a href="/index/myInfo"><i class="fa fa-user fa-fw"></i> User Profile</a>
@@ -90,7 +75,6 @@
                 </ul>
                 <!-- /.dropdown-user -->
             </li>
-            <!-- /.dropdown -->
         </ul>
         <!-- /.navbar-top-links -->
 
@@ -200,11 +184,11 @@
                                 <br>
                                 <div class="form">
                                     <div class="bio-row">
-                                        <p><span>用户名：</span> <%=user.username%></p>
+                                        <p><span>用&nbsp;&nbsp;户&nbsp;&nbsp;名：</span> <%=user.username%></p>
                                     </div>
                                     <br>
                                     <div class="bio-row">
-                                        <p><span>邮箱： </span> <%=user.email%></p>
+                                        <p><span>邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱： </span> <%=user.email%></p>
                                     </div>
                                     <br>
                                     <div class="bio-row">
@@ -232,19 +216,19 @@
                                 <br>
                                 <form class="form-horizontal" role="form">
                                     <div class="form-group">
-                                        <label  class="col-lg-2 control-label">用户名</label>
+                                        <label  class="col-lg-2 control-label">用&nbsp;户&nbsp;名</label>
                                         <div class="col-lg-6">
                                             <input type="text" class="form-control" id="modify_username" placeholder="" required>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label  class="col-lg-2 control-label">邮箱</label>
+                                        <label  class="col-lg-2 control-label">邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱</label>
                                         <div class="col-lg-6">
                                             <input type="text" class="form-control" id="modify_email" placeholder="" required>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label  class="col-lg-2 control-label">电话</label>
+                                        <label  class="col-lg-2 control-label">电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</label>
                                         <div class="col-lg-6">
                                             <input type="text" class="form-control" id="modify_phoneNumber" placeholder="" required>
                                         </div>
@@ -274,7 +258,7 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label  class="col-lg-3 control-label">新密码</label>
+                                        <label  class="col-lg-3 control-label">新&nbsp;&nbsp;密&nbsp;&nbsp;码</label>
                                         <div class="col-lg-6">
                                             <input type="password" class="form-control" id="modify_password" placeholder="" required>
                                         </div>
