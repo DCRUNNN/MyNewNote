@@ -1,0 +1,540 @@
+<body>
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/"><%= title %></a>
+        </div>
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw">
+                    </i>
+                    <span class="username"><%= user.username %></span>
+                    <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="/index/myInfo"><i class="fa fa-user fa-fw"></i> 个人中心</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="/"><i class="fa fa-sign-out fa-fw"></i> 退出登录</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="sidebar-search">
+                        <div class="input-group custom-search-form">
+                            <input type="text" class="form-control search" id="mySearchBT" placeholder="Search...">
+                            <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" onclick="mySearch()">
+                        <i class="fa fa-search"></i>
+                    </button>
+                  </span>
+                        </div>
+                        <!-- /input-group -->
+                    </li>
+                    <li class="active">
+                        <a href="/"><i class="fa fa-book" aria-hidden="true"></i> 我的笔记本<span
+                                    class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level" id="notebook_ul" role="menu">
+                            <% note.forEach(function(note2){ %>
+                                <li id="context" data-toggle="context" data-target="#context-menu"
+                                    onmousedown="right('<%= note2.notebookID %>','<%= note2.title %>','<%= note2.tag %>')">
+                                    <a href="/index/showPageMenu/<%= note2.notebookID %>">
+                                        <i class="fa fa-book" aria-hidden="true"></i>
+                                        <span id="<%= note2.notebookID %>"><%= note2.title %></span>
+                                    </a>
+                                </li>
+                            <% }) %>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation">
+                                <a data-toggle="modal" href="#addNotebookModal" onclick="getNotebookTags()">
+                                    <i class="fa fa-coffee" aria-hidden="true"></i>
+                                    <span>添加笔记本</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="fa fa-envelope fa-fw"></i> 好友圈<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="/index/myFriends">
+                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                    <span>我的好友</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/index/sharedPage">
+                                    <i class="fa fa-share-alt" aria-hidden="true"></i>
+                                    <span>分享笔记</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+
+                    <li>
+                        <a href="/index/tagManage"><i class="fa fa-tags fa-fw" aria-hidden="true"></i> 标签管理</a>
+                    </li>
+                    <li>
+                        <a href="/index/myInfo"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> 我的信息</a>
+                    </li>
+
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+
+    <div id="context-menu">
+        <ul class="dropdown-menu" role="menu">
+            <li data-toggle="modal" href="#deleteNotebookModal"
+                onclick="setDataToDeleteNotebookDialog();$('#deleteNotebookModal').modal('show');">
+                <a>
+                    <i class="fa fa-close"></i>
+                    &nbsp;删除
+                </a>
+            </li>
+            <li data-toggle="modal" href="#deleteNotebookModal" onclick="$('#modifyNotebookModal').modal('show');">
+                <a>
+                    <i class="fa fa-edit"></i>
+                    修改
+                </a>
+            </li>
+            <li class="hidden"><a id="delete_id">Another action</a></li>
+            <li class="hidden"><a id="delete_title">Another action</a></li>
+        </ul>
+    </div>
+
+    <div id="context-menu2">
+        <ul class="dropdown-menu" role="menu">
+            <li data-toggle="modal" href="#deleteNotebookModal"
+                onclick="setDataToDeletePageDialog();$('#deletePageModal').modal('show');"><a>删除</a></li>
+            <li class="hidden"><a id="delete_pageID">Another action</a></li>
+            <li class="hidden"><a id="delete_pageTitle">Another action</a></li>
+        </ul>
+    </div>
+
+    <div class="modal fade" id="addNotebookModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">添加笔记本</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">笔记本标题</label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" id="notebook_title" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">笔记本标签</label>
+                            <div class="col-lg-7">
+                                <select class="form-control" id="notebook_tag">
+
+                                </select>
+                            </div>
+                            <div class="col-lg-2">
+                                <a class="btn btn-default btn-sm" data-toggle="modal" id="addNewNotebookTag">新建标签</a>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="newNotebookTagDiv" style="display:none;">
+                            <label class="col-lg-3 control-label">新&nbsp;&nbsp;&nbsp;标&nbsp;&nbsp;&nbsp;&nbsp;签</label>
+                            <div class="col-lg-7">
+                                <input type="text" class="form-control" id="notebook_newTag" placeholder="">
+                            </div>
+                            <div class="col-lg-1">
+                                <a class="btn btn-default btn-sm" onclick="addNotebookTag()"><i class="fa fa-check"></i></a>
+                            </div>
+                            <div class="col-lg-1">
+                                <a class="btn btn-default btn-sm" onclick="$('#newNotebookTagDiv').toggle()"><i
+                                            class="fa fa-close"></i></a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <button type="button" class="btn btn-default btn-block" onclick="addNotebook()">
+                                    <i class="fa fa-check"></i>
+                                    确定
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="deleteNotebookModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    是否确认删除笔记本：<code id="delete_notebookTitle"></code>?
+                    <br><br>
+                    <span><strong>若删除笔记本，则里面的笔记也会被删除！</strong></span>
+                </div>
+                <p class="hidden" id="delete_notebookID"></p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="deleteNotebook()">删除</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="modifyNotebookModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">修改笔记本信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">笔记本标题</label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" id="modify_notebook_title"
+                                       name="modify_notebook_title" placeholder="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-lg-3 control-label">笔记本标签</label>
+                            <div class="col-lg-9">
+                                <input type="text" class="form-control" id="modify_notebook_tag"
+                                       name="modify_notebook_tag" placeholder="">
+                            </div>
+                        </div>
+                        <p class="hidden" id="modify_notebookID"></p>
+                        <div class="form-group">
+                            <div class="col-lg-12">
+                                <button type="button" class="btn btn-default btn-block" onclick="modifyNotebook()">确认
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="mySearchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">搜索结果</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table" style="text-align:center">
+                        <thead>
+                        <tr>
+                            <th style="text-align:center">ID</th>
+                            <th style="text-align:center">Title</th>
+                            <th style="text-align:center">Tag</th>
+                            <th style="text-align:center">类型</th>
+                        </tr>
+                        </thead>
+                        <tbody id="mySearchContent">
+                        <tr class="">
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">好的</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+
+</body>
+
+<script src="/vendor/jquery/jquery.min.js"></script>
+
+<script>
+
+  $("#addNewNotebookTag").click(function () {
+    $("#newNotebookTagDiv").toggle()
+  })
+
+  function getNotebookTags() {
+    $.ajax({
+      data: {},
+      url: "/index/getAllNotebookTags",
+      dataType: 'json',
+//                        async: false,
+      contentType: 'application/json;charset=UTF-8',
+      cache: false,
+      timeout: 0,
+      type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      success: function (data) {
+        var result = JSON.parse(JSON.stringify(data));
+        if (result.message == 'success') {
+          var data = result.data;
+          for (var i = 0; i < data.length; i++) {
+            $("#notebook_tag").append(
+                "<option>" + data[i].value + "</option>"
+            )
+          }
+        } else {
+          alert("获取笔记本标签信息失败！请刷新重试！");
+        }
+      },
+      error: function () {
+        alert("获取笔记本标签信息失败！请刷新重试！");
+        window.location.reload();
+      }
+    });
+
+  }
+
+  function addNotebookTagSideBar() {
+    let tag = document.getElementById("notebook_newTag").value;
+    if(!tag || tag.trim() === ''){
+      alert('请输入新标签！');
+      return;
+    }
+    $.ajax({
+      data: {
+        notebookTag: tag
+      },
+      url: "/tagManage/addNotebookTag",
+      dataType: 'json',
+//                        async: false,
+      contentType: 'application/json;charset=UTF-8',
+      cache: false,
+      timeout: 0,
+      type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      success: function () {
+        alert("添加笔记本标签成功！");
+        $("#addNotebookTagModal").modal("hide");
+        $("#notebook_tag").append(
+            "<option>" + tag + "</option>"
+        )
+        $("#notebook_tag").val(tag);
+        $("#newNotebookTagDiv").hide();
+      },
+      error: function () {
+        alert("添加笔记本标签失败！");
+      }
+    });
+  }
+
+  function mySearch() {
+    var input = $('#mySearchBT').val();
+
+    $.ajax({
+      data: {input: input},
+      url: "/index/mySearch",
+      dataType: 'json',
+//                        async: false,
+      contentType: 'application/json;charset=UTF-8',
+      cache: false,
+      timeout: 0,
+      type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      success: function (data) {
+        var result = JSON.parse(JSON.stringify(data));
+
+        var data1 = result.notebookData;
+        var data2 = result.pageData;
+
+        $("#mySearchContent").empty();
+
+        for (var i = 0; i < data1.length; i++) {
+          $("#mySearchContent").append(
+              "<tr><td>" + data1[i].notebookID +
+              "</td><td>" + data1[i].title +
+              "</td><td>" + data1[i].tag +
+              "</td><td>" + "笔记本" +
+              "</td><tr>"
+          )
+        }
+
+        for (var i = 0; i < data2.length; i++) {
+          $("#mySearchContent").append(
+              "<tr><td>" + data2[i].pageID +
+              "</td><td>" + data2[i].title +
+              "</td><td>" + data2[i].tag +
+              "</td><td>" + "笔记" +
+              "</td><tr>"
+          )
+        }
+
+        $('#mySearchModal').modal('show');
+      },
+      error: function () {
+        alert("分享失败，请刷新重试！");
+      }
+    });
+  }
+
+  function addNotebookTag() {
+    let tag = document.getElementById("notebook_newTag").value;
+    if (!tag || tag.trim() === '') {
+      alert('请输入标签!');
+      return;
+    }
+    $.ajax({
+      data: {
+        notebookTag: tag
+      },
+      url: "/tagManage/addNotebookTag",
+      dataType: 'json',
+//                        async: false,
+      contentType: 'application/json;charset=UTF-8',
+      cache: false,
+      timeout: 0,
+      type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      success: function () {
+        $("#addNotebookTagModal").modal("hide");
+        $("#notebook_tag").append(
+            "<option>" + tag + "</option>"
+        )
+        $("#notebook_tag").val(tag);
+        $("#newNotebookTagDiv").hide();
+      },
+      error: function () {
+        alert("添加笔记本标签失败！");
+      }
+    });
+  }
+
+  function addNotebook() {
+    let notebookTitle = document.getElementById("notebook_title").value;
+    if (!notebookTitle || notebookTitle.trim() === '') {
+      alert('请输入笔记本标题！')
+      return;
+    }
+    $.ajax({
+      data: {
+        title: document.getElementById("notebook_title").value,
+        tag: $('#notebook_tag').children('option:selected').val()
+      },
+      url: "/index/addNotebook",
+      dataType: 'json',
+//                        async: false,
+      contentType: 'application/json;charset=UTF-8',
+      cache: false,
+      timeout: 0,
+      type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      success: function () {
+        alert("添加笔记本成功！");
+        window.location.reload();
+      },
+      error: function () {
+        alert("添加笔记本失败！");
+      }
+    });
+  }
+
+  function modifyNotebook() {
+    let notebookTitle = document.getElementById("modify_notebook_title").value;
+    let notebookTag = document.getElementById("modify_notebook_tag").value;
+    let notebookID = document.getElementById("modify_notebookID").value;
+
+    $.ajax({
+      data: {notebookID: notebookID, title: notebookTitle, tag: notebookTag},
+      url: "/index/modifyNotebook",
+      dataType: 'json',
+      contentType: 'application/json;charset=UTF-8',
+      cache: false,
+      timeout: 0,
+      type: 'get',
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      success: function (data) {
+        alert("修改成功！");
+        window.location.reload();
+      },
+      error: function () {
+        alert("修改成功！");
+        window.location.reload();
+      }
+    });
+  }
+
+  function deleteNotebook() {
+    let notebookID = document.getElementById("delete_notebookID").innerText;
+
+    $.ajax({
+      data: {notebookID: notebookID},
+      url: "/index/deleteNotebook",
+      dataType: 'json',
+      contentType: 'application/json;charset=UTF-8',
+      cache: false,
+      timeout: 0,
+      type: 'get',
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      success: function (data) {
+        alert("删除成功！");
+        window.location.reload();
+      },
+      error: function () {
+        alert("删除成功！");
+        window.location.reload();
+      }
+    });
+  }
+
+  function setDataToDeleteNotebookDialog() {
+    document.getElementById("delete_notebookID").innerText = document.getElementById("delete_id").innerText;
+    document.getElementById("delete_notebookTitle").innerText = document.getElementById("delete_title").innerText;
+  }
+
+  //右击NotebookMenu
+  function right(id, title, tag) {
+    var e = window.event;
+    if (e.button === 2) {
+      document.getElementById("delete_id").innerText = id;
+      document.getElementById("delete_title").innerText = title;
+      $("#modify_notebookID").val(id);
+      $("#modify_notebook_title").val(title);
+      $("#modify_notebook_tag").val(tag);
+    }
+  }
+</script>

@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-
+var cors = require('cors');
 
 var routes = require('./routes/index');
 var login = require('./routes/login');
@@ -16,10 +16,10 @@ var userManage = require('./routes/userManage');
 var friends = require('./routes/friends');
 var sharedPage = require('./routes/sharedPage');
 var myInfo = require('./routes/myInfo');
-
+var recognition = require('./routes/aiSpeechRecognition');
 var databaseHelper = require('./routes/database');
-var app = express();
 
+var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -42,6 +42,7 @@ app.use('/userManage', userManage);
 app.use('/friends', friends);
 app.use('/sharedPage', sharedPage);
 app.use('/myInfo', myInfo);
+app.use('/baiduAI2', recognition);
 
 // app.use('home', routes);
 
@@ -63,6 +64,18 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 
-
+let whitelist = ['http://localhost:3000', 'https://www.baidu.com/', 'https://openapi.baidu.com/oauth/2.0/token'];
+app.use(cors({
+    origin: function(origin, callback){
+        // allow requests with no origin
+        if(!origin) return callback(null, true);
+        if(whitelist.indexOf(origin) === -1){
+            let message = 'The CORS policy for this origin doesn`t '
+                + 'allow access from the particular origin.';
+            return callback(new Error(message), false);
+        }
+        return callback(null, true);
+    }
+}));
 
 module.exports = app;

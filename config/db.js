@@ -14,7 +14,7 @@ const sequelize = new Sequelize('mynote','root','sqlite',
 );
 
 sequelize.authenticate().then(function() {
-    console.log("数据库连接成功");
+    console.log("数据库连接成功!");
 }).catch(function(err) {
     //数据库连接失败时打印输出
     console.error(err);

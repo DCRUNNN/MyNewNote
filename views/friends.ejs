@@ -29,7 +29,10 @@
     <script src="/plugins/ckeditor/ckeditor.js"></script>
 
     <style>
-        .selected{font-weight:bold; background-color:#00B7FF;}
+        .selected {
+            font-weight: bold;
+            background-color: #00B7FF;
+        }
     </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -45,171 +48,76 @@
 
 <div id="wrapper">
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/"><%= title %></a>
-        </div>
-        <!-- /.navbar-header -->
-
-        <ul class="nav navbar-top-links navbar-right">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-user fa-fw">
-                    </i>
-                    <span class="username"><%= user.username %></span>
-                    <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li><a href="/index/myInfo"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li><a href="/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                    </li>
-                </ul>
-                <!-- /.dropdown-user -->
-            </li>
-            <!-- /.dropdown -->
-        </ul>
-        <!-- /.navbar-top-links -->
-
-        <div class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">
-                    <li class="sidebar-search">
-                        <div class="input-group custom-search-form">
-                            <input type="text" class="form-control search" id="mySearchBT" placeholder="Search..." >
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" onclick="mySearch()">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                        <!-- /input-group -->
-                    </li>
-                    <li>
-                        <a href="/"><i class="fa fa-book" aria-hidden="true"></i>  我的笔记本<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level" id="notebook_ul" role="menu">
-                            <%note.forEach(function(note2){%>
-                            <li id="context" data-toggle="context" data-target="#context-menu" onmousedown="right('<%=note2.notebookID%>','<%=note2.title%>','<%=note2.tag%>')">
-                                <a href="/index/showPageMenu/<%=note2.notebookID%>">
-                                    <i class="fa fa-book" aria-hidden="true"></i>
-                                    <span id="<%=note2.notebookID%>"><%=note2.title%></span>
-                                </a>
-                            </li>
-                            <%})%>
-                            <li role="presentation" class="divider"></li>
-                            <li role="presentation">
-                                <a data-toggle="modal" href="#addNotebookModal" onclick="getNotebookTags()">
-                                    <i class="fa fa-coffee" aria-hidden="true"></i>
-                                    <span>添加笔记本</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li class="active">
-                        <a href="#"><i class="fa fa-envelope fa-fw"></i>  好友圈<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="/index/myFriends">
-                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                                    <span>我的好友</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/index/sharedPage">
-                                    <i class="fa fa-share-alt" aria-hidden="true"></i>
-                                    <span>分享笔记</span>
-                                </a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-
-                    <li>
-                        <a href="/index/tagManage"><i class="fa fa-tags fa-fw" aria-hidden="true"></i>  标签管理</a>
-                    </li>
-                    <li>
-                        <a href="/index/myInfo"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> 我的信息</a>
-                    </li>
-
-                </ul>
-            </div>
-            <!-- /.sidebar-collapse -->
-
-        </div>
-        <!-- /.navbar-static-side -->
-    </nav>
+    <%- include('left.ejs') %>
 
     <div id="page-wrapper">
 
         <div class="panel panel-default">
             <!--<div class="chat-panel panel panel-default">-->
-                <header class="panel-heading">
-                    我的好友
-                </header>
+            <header class="panel-heading">
+                我的好友
+            </header>
 
-                <div class="panel-body">
-                    <form class="bs-example bs-example-form" role="form" action="#">
-                        <div class="row">
-                            <div class="col-md-4 pull-right">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="search_username" placeholder="查找用户"  onkeydown="keyListener()">
-                                    <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" onclick="showSearchResult()" value="Search">
+            <div class="panel-body">
+                <form class="bs-example bs-example-form" role="form" action="#">
+                    <div class="row">
+                        <div class="col-md-4 pull-right">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="search_username" placeholder="查找用户"
+                                       onkeydown="keyListener()">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" onclick="showSearchResult()"
+                                            value="Search">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </span>
-                                </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
+                </form>
 
-                    <ul class="chat">
-                        <%allFriends.forEach(function(friend){%>
+                <ul class="chat">
+                    <% allFriends.forEach(function(friend){ %>
 
-                        <li class="left clearfix">
+                    <li class="left clearfix">
                         <span class="chat-img pull-left">
                             <img class="avatar" src="/images/avatar-mini.jpg" alt="">
                         </span>
-                            <div class="chat-body clearfix">
-                                <div class="header">
-                                    <p class="primary-font" style="font-size: 18px"><%=friend.friendUsername%></p>
-                                    <!--<small class="pull-right text-muted">-->
-                                        <!--<i class="fa fa-smile-o fa-fw"></i>-->
-                                    <!--</small>-->
-                                </div>
-                                <p>
-                                    <!--<address>-->
-                                   <div class="col-md-4 col-md-offset-2">
-                                        <label class="control-label">好友邮箱：</label>
-                                        <a href="mailto:#"><%=friend.friendEmail%></a>
-                                    </div>
-                                   <div class="col-md-4">
-                                       <label class="control-label">联系方式：</label>
-                                       <a href="mailto:#"><%=friend.friendPhoneNumber%></a>
-                                   </div>
-                                    <!--</address>-->
-                                     <a class="pull-right" onclick="showDeleteFriendDialog('<%=friend.friendID%>','<%=friend.friendUsername%>')"><i class="fa fa-close" aria-hidden="true"></i></a>
-                                </p>
+                        <div class="chat-body clearfix">
+                            <div class="header">
+                                <p class="primary-font" style="font-size: 18px"><%= friend.friendUsername %></p>
+                                <!--<small class="pull-right text-muted">-->
+                                <!--<i class="fa fa-smile-o fa-fw"></i>-->
+                                <!--</small>-->
                             </div>
-                        </li>
-                        <%})%>
+                            <p>
+                                <!--<address>-->
+                            <div class="col-md-4 col-md-offset-2">
+                                <label class="control-label">好友邮箱：</label>
+                                <a href="mailto:#"><%= friend.friendEmail %></a>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="control-label">联系方式：</label>
+                                <a href="mailto:#"><%= friend.friendPhoneNumber %></a>
+                            </div>
+                            <!--</address>-->
+                            <a class="pull-right"
+                               onclick="showDeleteFriendDialog('<%= friend.friendID %>','<%= friend.friendUsername %>')"><i
+                                        class="fa fa-close" aria-hidden="true"></i></a>
+                            </p>
+                        </div>
+                    </li>
+                    <% }) %>
 
-                    </ul>
+                </ul>
 
-                </div>
-             <!--</div>-->
+            </div>
+            <!--</div>-->
 
         </div>
-        <div class="modal fade" id="searchResultModal" style="display: none" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+        <div class="modal fade" id="searchResultModal" style="display: none" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -220,18 +128,20 @@
                         <!--user-heading-->
                         <div class="">
                             <!--<a href="#">-->
-                                <!--<img alt="" src="/images/profile-avatar.jpg">-->
+                            <!--<img alt="" src="/images/profile-avatar.jpg">-->
                             <!--</a>-->
                             <h3 id="searchResult_username" style="text-align: center"></h3>
                         </div>
                         <ul class="nav nav-pills nav-stacked">
-                            <li style="display: none"><a href="#" id="searchResult_userID">用户ID：<i class="fa fa-envelop"></i></a></li>
-                            <li><a href="#" ><i class="fa fa-envelope"id="searchResult_email"></i></a></li>
-                            <li><a href="#" ><i class="fa fa-phone" id="searchResult_phoneNumber"></i></a></li>
+                            <li style="display: none"><a href="#" id="searchResult_userID">用户ID：<i
+                                            class="fa fa-envelop"></i></a></li>
+                            <li><a href="#"><i class="fa fa-envelope" id="searchResult_email"></i></a></li>
+                            <li><a href="#"><i class="fa fa-phone" id="searchResult_phoneNumber"></i></a></li>
                         </ul>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default btn-md btn-block" onclick="addUser()">加为好友</button>
+                            <button type="button" class="btn btn-default btn-md btn-block" onclick="addUser()">加为好友
+                            </button>
                         </div>
 
                     </div>
@@ -239,7 +149,8 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
 
-        <div class="modal fade" id="deleteFriendModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="deleteFriendModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -250,99 +161,21 @@
                         <form>
                             <div class="form-group">
                                 <p id="delete_userID" style="display: none"></p>
-                                <p class="col-lg-12">是否确认删除好友：<strong id="delete_username" style="font-size: 16px"></strong>?</p>
+                                <p class="col-lg-12">是否确认删除好友：<strong id="delete_username"
+                                                                      style="font-size: 16px"></strong>?</p>
                             </div>
                             <div class="form-group">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                                <button type="button" class="btn btn-primary pull-right" onclick="deleteFriend()">删除</button>
+                                <button type="button" class="btn btn-primary pull-right" onclick="deleteFriend()">删除
+                                </button>
                             </div>
                         </form>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-
-        <div class="modal fade" id="addNotebookModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">添加笔记本</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form-horizontal" role="form">
-                            <div class="form-group">
-                                <label  class="col-lg-3 control-label">笔记本标题</label>
-                                <div class="col-lg-9">
-                                    <input type="text" class="form-control" id="notebook_title" placeholder="">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label  class="col-lg-3 control-label">笔记本标签</label>
-                                <div class="col-lg-7">
-                                    <select class="form-control" id="notebook_tag">
-
-                                    </select>
-                                </div>
-                                <div class="col-lg-2">
-                                    <a class="btn btn-default btn-sm" data-toggle="modal" id="addNewNotebookTag">新建标签</a>
-                                </div>
-                            </div>
-
-                            <div class="form-group" id="newNotebookTagDiv" style="display:none;">
-                                <label  class="col-lg-3 control-label">新&nbsp;&nbsp;&nbsp;标&nbsp;&nbsp;&nbsp;&nbsp;签</label>
-                                <div class="col-lg-7">
-                                    <input type="text" class="form-control" id="notebook_newTag" placeholder="">
-                                </div>
-                                <div class="col-lg-2">
-                                    <a class="btn btn-default btn-sm" onclick="addNotebookTagSideBar()">添&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;加</a>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-lg-12">
-                                    <button type="button" class="btn btn-default btn-block" onclick="addNotebook()">确定</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-
-        <div class="modal fade" id="mySearchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">搜索结果</h4>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table"  style="text-align:center">
-                            <thead>
-                            <tr>
-                                <th style="text-align:center">ID</th>
-                                <th style="text-align:center">Title</th>
-                                <th style="text-align:center">Tag</th>
-                                <th style="text-align:center">类型</th>
-                            </tr>
-                            </thead>
-                            <tbody id="mySearchContent">
-                            <tr class="">
-                            </tr>
-                            </tbody>
-                        </table>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">好的</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div>
-
     </div>
-    </div>
+</div>
 
 
 </div>
@@ -362,302 +195,153 @@
 
 <script>
 
-    $("#addNewNotebookTag").click(function () {
-        $("#newNotebookTagDiv").toggle()
-    })
-
-    function showSearchResult(){
-        var username=document.getElementById("search_username").value;
-        $.ajax({
-            data: {
-                username: username
-            },
-            url: "/friends/searchUser",
-            dataType: 'json',
+  function showSearchResult() {
+    var username = document.getElementById("search_username").value;
+    $.ajax({
+      data: {
+        username: username
+      },
+      url: "/friends/searchUser",
+      dataType: 'json',
 //                        async: false,
-            contentType: 'application/json;charset=UTF-8',
-            cache: false,
-            timeout: 0,
-            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            success: function (data) {
-                var result = JSON.parse(JSON.stringify(data));
-                if(result.message=='success'){
-                    if(result.data!=null){
-                        document.getElementById("searchResult_userID").innerText = result.data.userID;
-                        document.getElementById("searchResult_username").innerText = result.data.username;
-                        document.getElementById("searchResult_email").innerText = result.data.email;
-                        document.getElementById("searchResult_phoneNumber").innerText = result.data.phoneNumber;
-                        $("#searchResultModal").modal('show');
-                    }else {
-                        alert("该用户不存在！");
-                    }
-                }
-            },
-            error: function () {
-                alert("搜索用户失败！请刷新重试");
-            }
-        });
-
-    }
-
-    function addUser(){
-        var username=document.getElementById("searchResult_username").innerText;
-
-        if(username=="<%=user.username%>"){
-            alert("为什么要添加自己为好友呢？")
-            return;
+      contentType: 'application/json;charset=UTF-8',
+      cache: false,
+      timeout: 0,
+      type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      success: function (data) {
+        var result = JSON.parse(JSON.stringify(data));
+        if (result.message == 'success') {
+          if (result.data != null) {
+            document.getElementById("searchResult_userID").innerText = result.data.userID;
+            document.getElementById("searchResult_username").innerText = result.data.username;
+            document.getElementById("searchResult_email").innerText = result.data.email;
+            document.getElementById("searchResult_phoneNumber").innerText = result.data.phoneNumber;
+            $("#searchResultModal").modal('show');
+          } else {
+            alert("该用户不存在！");
+          }
         }
-        var userID = document.getElementById("searchResult_userID").innerText;
-        var email = document.getElementById("searchResult_email").innerText;
-        var phoneNumber = document.getElementById("searchResult_phoneNumber").innerText;
-        $.ajax({
-            data: {
-                userID:userID,
-                username: username,
-                email:email,
-                phoneNumber:phoneNumber
-            },
-            url: "/friends/addFriend",
-            dataType: 'json',
+      },
+      error: function () {
+        alert("搜索用户失败！请刷新重试");
+      }
+    });
+
+  }
+
+  function addUser() {
+    var username = document.getElementById("searchResult_username").innerText;
+
+    if (username == "<%= user.username %>") {
+      alert("为什么要添加自己为好友呢？")
+      return;
+    }
+    var userID = document.getElementById("searchResult_userID").innerText;
+    var email = document.getElementById("searchResult_email").innerText;
+    var phoneNumber = document.getElementById("searchResult_phoneNumber").innerText;
+    $.ajax({
+      data: {
+        userID: userID,
+        username: username,
+        email: email,
+        phoneNumber: phoneNumber
+      },
+      url: "/friends/addFriend",
+      dataType: 'json',
 //                        async: false,
-            contentType: 'application/json;charset=UTF-8',
-            cache: false,
-            timeout: 0,
-            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            success: function (data) {
-                var result = JSON.parse(JSON.stringify(data));
-                if(result.message=='success'){
-                    alert("添加好友成功！")
-                    window.location.reload();
-                }
-            },
-            error: function () {
-                alert("添加好友失败！");
-            }
-        });
-
-    }
-
-    function showDeleteFriendDialog(friendID,username){
-        $('#deleteFriendModal').modal('show');
-        document.getElementById("delete_userID").innerText = friendID;
-        document.getElementById("delete_username").innerText = username;
-    }
-
-    function deleteFriend(){
-        var friendID = document.getElementById("delete_userID").innerText;
-        $.ajax({
-            data: {
-                userID:"<%=user.userID%>",
-                friendID: friendID
-            },
-            url: "/friends/deleteFriend",
-            dataType: 'json',
-//                        async: false,
-            contentType: 'application/json;charset=UTF-8',
-            cache: false,
-            timeout: 0,
-            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            success: function (data) {
-                var result = JSON.parse(JSON.stringify(data));
-                if(result.message=='success'){
-                    alert("删除好友成功！")
-                    window.location.reload();
-                }
-            },
-            error: function () {
-                alert("删除好友失败！");
-            }
-        });
-
-    }
-
-    function keyListener(){
-        if (event.keyCode==13)  //回车键的键值为13
-            showSearchResult();
-    }
-
-    function getCookieValue(key) {
-        var data = decodeURI(document.cookie).split(";");
-        for(var i=0;i<data.length;i++) {
-            if(data[i].trim().indexOf(key)==0) {
-                return data[i].trim();
-            }
+      contentType: 'application/json;charset=UTF-8',
+      cache: false,
+      timeout: 0,
+      type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      success: function (data) {
+        var result = JSON.parse(JSON.stringify(data));
+        if (result.message == 'success') {
+          alert("添加好友成功！")
+          window.location.reload();
         }
-    }
+      },
+      error: function () {
+        alert("添加好友失败！");
+      }
+    });
 
-    function getNotebookTags() {
-        $.ajax({
-            data: {},
-            url: "/index/getAllNotebookTags",
-            dataType: 'json',
+  }
+
+  function showDeleteFriendDialog(friendID, username) {
+    $('#deleteFriendModal').modal('show');
+    document.getElementById("delete_userID").innerText = friendID;
+    document.getElementById("delete_username").innerText = username;
+  }
+
+  function deleteFriend() {
+    var friendID = document.getElementById("delete_userID").innerText;
+    $.ajax({
+      data: {
+        userID: "<%= user.userID %>",
+        friendID: friendID
+      },
+      url: "/friends/deleteFriend",
+      dataType: 'json',
 //                        async: false,
-            contentType: 'application/json;charset=UTF-8',
-            cache: false,
-            timeout: 0,
-            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            success: function (data) {
-                var result = JSON.parse(JSON.stringify(data));
-                if (result.message == 'success') {
-                    var data = result.data;
-                    for(var i=0; i<data.length;i++){
-                        $("#notebook_tag").append(
-                            "<option>"+data[i].value+ "</option>"
-                        )
-                    }
-                } else {
-                    alert("获取笔记本标签信息失败！请刷新重试！");
-                }
-            },
-            error: function () {
-                alert("获取笔记本标签信息失败！请刷新重试！");
-                window.location.reload();
-            }
-        });
+      contentType: 'application/json;charset=UTF-8',
+      cache: false,
+      timeout: 0,
+      type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      success: function (data) {
+        var result = JSON.parse(JSON.stringify(data));
+        if (result.message == 'success') {
+          alert("删除好友成功！")
+          window.location.reload();
+        }
+      },
+      error: function () {
+        alert("删除好友失败！");
+      }
+    });
 
+  }
+
+  function keyListener() {
+    if (event.keyCode === 13)  //回车键的键值为13
+      showSearchResult();
+  }
+
+  function getCookieValue(key) {
+    var data = decodeURI(document.cookie).split(";");
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].trim().indexOf(key) === 0) {
+        return data[i].trim();
+      }
     }
-
-    function addNotebookTagSideBar(){
-        var tag = document.getElementById("notebook_newTag").value;
-        $.ajax({
-            data: {
-                notebookTag:tag
-            },
-            url: "/tagManage/addNotebookTag",
-            dataType: 'json',
-//                        async: false,
-            contentType: 'application/json;charset=UTF-8',
-            cache: false,
-            timeout: 0,
-            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            success: function () {
-                alert("添加笔记本标签成功！");
-                $("#addNotebookTagModal").modal("hide");
-                $("#notebook_tag").append(
-                    "<option>"+tag+ "</option>"
-                )
-                $("#notebook_tag").val(tag);
-                $("#newNotebookTagDiv").hide();
-            },
-            error: function () {
-                alert("添加笔记本标签失败！");
-            }
-        });
-    }
-
-    function addNotebook() {
-        $.ajax({
-            data: {
-                title: document.getElementById("notebook_title").value,
-                tag: $('#notebook_tag').children('option:selected').val()
-            },
-            url: "/index/addNotebook",
-            dataType: 'json',
-//                        async: false,
-            contentType: 'application/json;charset=UTF-8',
-            cache: false,
-            timeout: 0,
-            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            success: function () {
-                alert("添加笔记本成功！");
-                window.location.reload();
-            },
-            error: function () {
-                alert("添加笔记本失败！");
-            }
-        });
-    }
-
-    function mySearch(){
-        var input = $('#mySearchBT').val();
-
-        $.ajax({
-            data: {input:input},
-            url: "/index/mySearch",
-            dataType: 'json',
-//                        async: false,
-            contentType: 'application/json;charset=UTF-8',
-            cache: false,
-            timeout: 0,
-            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            success: function (data) {
-                var result = JSON.parse(JSON.stringify(data));
-
-                var data1 = result.notebookData;
-                var data2 = result.pageData;
-
-                $("#mySearchContent").empty();
-
-                for(var i=0;i<data1.length;i++) {
-                    $("#mySearchContent").append(
-                        "<tr><td>"+data1[i].notebookID+
-                        "</td><td>"+data1[i].title+
-                        "</td><td>"+data1[i].tag+
-                        "</td><td>"+"笔记本"+
-                        "</td><tr>"
-                    )
-                }
-
-                for(var i=0;i<data2.length;i++) {
-                    $("#mySearchContent").append(
-                        "<tr><td>"+data2[i].pageID+
-                        "</td><td>"+data2[i].title+
-                        "</td><td>"+data2[i].tag+
-                        "</td><td>"+"笔记"+
-                        "</td><tr>"
-                    )
-                }
-
-                $('#mySearchModal').modal('show');
-            },
-            error: function () {
-                alert("分享失败，请刷新重试！");
-            }
-        });
-
-
-    }
-
+  }
 
 </script>
 
 
 <script>
 
-    $(document).ready(function () {
+  $(document).ready(function () {
 
-        var cookieValue = getCookieValue('user=');
-        var privilege = cookieValue.substr(cookieValue.length - 2).charAt(0);
-        if (privilege == 1) {
-            $("#side-menu").append('<li>\n' +
-                '          <a href="/index/userManage">\n' +
-                '            <i class="fa fa-cog fa-fw" aria-hidden="true"></i>\n' +
-                '              账户管理\n' +
-                '          </a>\n' +
-                '        </li>')
-        }
-    });
+    var cookieValue = getCookieValue('user=');
+    var privilege = cookieValue.substr(cookieValue.length - 2).charAt(0);
+    if (privilege == 1) {
+      $("#side-menu").append('<li>\n' +
+          '          <a href="/index/userManage">\n' +
+          '            <i class="fa fa-cog fa-fw" aria-hidden="true"></i>\n' +
+          '              账户管理\n' +
+          '          </a>\n' +
+          '        </li>')
+    }
+  });
 
 </script>
 

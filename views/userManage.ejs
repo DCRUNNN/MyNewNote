@@ -35,7 +35,10 @@
     <script src="/plugins/ckeditor/ckeditor.js"></script>
 
     <style>
-        .selected{font-weight:bold; background-color:#00B7FF;}
+        .selected {
+            font-weight: bold;
+            background-color: #00B7FF;
+        }
     </style>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -51,110 +54,9 @@
 
 <div id="wrapper">
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/"><%= title %></a>
-        </div>
-        <!-- /.navbar-header -->
-
-        <ul class="nav navbar-top-links navbar-right">
-            <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <i class="fa fa-user fa-fw">
-                    </i>
-                    <span class="username"><%= user.username %></span>
-                    <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li><a href="/index/myInfo"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li><a href="/"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                    </li>
-                </ul>
-                <!-- /.dropdown-user -->
-            </li>
-        </ul>
-        <!-- /.navbar-top-links -->
-
-        <div class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-nav navbar-collapse">
-                <ul class="nav" id="side-menu">
-                    <li class="sidebar-search">
-                        <div class="input-group custom-search-form">
-                            <input type="text" class="form-control search" id="mySearchBT" placeholder="Search..." >
-                            <span class="input-group-btn">
-                <button class="btn btn-default" type="button" onclick="mySearch()">
-                    <i class="fa fa-search"></i>
-                </button>
-              </span>
-                        </div>
-                        <!-- /input-group -->
-                    </li>
-                    <li>
-                        <a href="/"><i class="fa fa-book" aria-hidden="true"></i>  我的笔记本<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level" id="notebook_ul" role="menu">
-                            <%note.forEach(function(note2){%>
-                            <li id="context" data-toggle="context" data-target="#context-menu" onmousedown="right('<%=note2.notebookID%>','<%=note2.title%>','<%=note2.tag%>')">
-                                <a href="/index/showPageMenu/<%=note2.notebookID%>">
-                                    <i class="fa fa-book" aria-hidden="true"></i>
-                                    <span id="<%=note2.notebookID%>"><%=note2.title%></span>
-                                </a>
-                            </li>
-                            <%})%>
-                            <li role="presentation" class="divider"></li>
-                            <li role="presentation">
-                                <a data-toggle="modal" href="#addNotebookModal" onclick="getNotebookTags()">
-                                    <i class="fa fa-coffee" aria-hidden="true"></i>
-                                    <span>添加笔记本</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a href="#"><i class="fa fa-envelope fa-fw"></i>  好友圈<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li>
-                                <a href="/index/myFriends">
-                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                                    <span>我的好友</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/index/sharedPage">
-                                    <i class="fa fa-share-alt" aria-hidden="true"></i>
-                                    <span>分享笔记</span>
-                                </a>
-                            </li>
-                        </ul>
-                        <!-- /.nav-second-level -->
-                    </li>
-
-                    <li>
-                        <a href="/index/tagManage"><i class="fa fa-tags fa-fw" aria-hidden="true"></i>  标签管理</a>
-                    </li>
-                    <li>
-                        <a href="/index/myInfo"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> 我的信息</a>
-                    </li>
-
-                </ul>
-            </div>
-            <!-- /.sidebar-collapse -->
-
-        </div>
-        <!-- /.navbar-static-side -->
-    </nav>
+    <%- include('left.ejs') %>
 
     <div id="page-wrapper">
-
         <div class="row">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -176,17 +78,21 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <%users.forEach(function(user){%>
+                            <% users.forEach(function(user){ %>
                             <tr class="gradeA">
-                                <td><%=user.userID%></td>
-                                <td><%=user.username%></td>
-                                <td><%=user.email%></td>
-                                <td><%=user.phoneNumber%></td>
-                                <td><%=user.privilege%></td>
-                                <td><a class="" data-toggle="modal" href="#modifyUserModal" onclick="setDataToDialog('<%=user.userID%>','<%=user.username%>','<%=user.email%>','<%=user.phoneNumber%>','<%=user.privilege%>')"><i class="fa fa-edit"></i></a></td>
-                                <td><a class="" data-toggle="modal" href="#deleteUserModal" onclick="setDataToDeleteDialog('<%=user.userID%>','<%=user.username%>')"><i class="fa fa-close" ></i></a></td>
+                                <td><%= user.userID %></td>
+                                <td><%= user.username %></td>
+                                <td><%= user.email %></td>
+                                <td><%= user.phoneNumber %></td>
+                                <td><%= user.privilege %></td>
+                                <td><a class="" data-toggle="modal" href="#modifyUserModal"
+                                       onclick="setDataToDialog('<%= user.userID %>','<%= user.username %>','<%= user.email %>','<%= user.phoneNumber %>','<%= user.privilege %>')"><i
+                                                class="fa fa-edit"></i></a></td>
+                                <td><a class="" data-toggle="modal" href="#deleteUserModal"
+                                       onclick="setDataToDeleteDialog('<%= user.userID %>','<%= user.username %>')"><i
+                                                class="fa fa-close"></i></a></td>
                             </tr>
-                            <%})%>
+                            <% }) %>
                             </tbody>
                         </table>
                     </div>
@@ -194,9 +100,8 @@
             </div>
         </div>
     </div>
-
-
-    <div class="modal fade" id="modifyUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modifyUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -206,38 +111,40 @@
                 <div class="modal-body">
                     <form class="form-horizontal" role="form">
                         <div class="form-group">
-                            <label  class="col-lg-3 control-label">I&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D</label>
+                            <label class="col-lg-3 control-label">I&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D</label>
                             <div class="col-lg-9">
-                                <input type="text" class="form-control" id="userID" name="userID" placeholder="" readonly="readonly">
+                                <input type="text" class="form-control" id="userID" name="userID" placeholder=""
+                                       readonly="readonly">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label  class="col-lg-3 control-label">昵&nbsp;&nbsp;&nbsp;称</label>
+                            <label class="col-lg-3 control-label">昵&nbsp;&nbsp;&nbsp;称</label>
                             <div class="col-lg-9">
                                 <input type="text" class="form-control" id="username" name="username" placeholder="">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label  class="col-lg-3 control-label">邮&nbsp;&nbsp;&nbsp;箱</label>
+                            <label class="col-lg-3 control-label">邮&nbsp;&nbsp;&nbsp;箱</label>
                             <div class="col-lg-9">
                                 <input type="text" class="form-control" id="email" name="email" placeholder="">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label  class="col-lg-3 control-label">电&nbsp;&nbsp;&nbsp;话</label>
+                            <label class="col-lg-3 control-label">电&nbsp;&nbsp;&nbsp;话</label>
                             <div class="col-lg-9">
                                 <input type="text" class="form-control" id="telephone" name="telephone" placeholder="">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label  class="col-lg-3 control-label">权&nbsp;&nbsp;&nbsp;限</label>
+                            <label class="col-lg-3 control-label">权&nbsp;&nbsp;&nbsp;限</label>
                             <div class="col-lg-9">
                                 <input type="text" class="form-control" id="privilege" name="privilege" placeholder="">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-lg-12">
-                                <button type="button" class="btn btn-default btn-block" onclick="modifyUser()">修改</button>
+                                <button type="button" class="btn btn-default btn-block" onclick="modifyUser()">修改
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -246,7 +153,8 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">是否确认删除<span id="delete_username"></span>用户？</div>
@@ -254,98 +162,6 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" onclick="deleteUser()">删除</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div>
-
-    <div class="modal fade" id="deleteNotebookModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">是否确认删除笔记：<code id="delete_notebookTitle"></code>?</div>
-                <p class="hidden" id="delete_notebookID"></p>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="deleteNotebook()">删除</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div>
-
-    <div class="modal fade" id="addNotebookModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">添加笔记本</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label  class="col-lg-3 control-label">笔记本标题</label>
-                            <div class="col-lg-9">
-                                <input type="text" class="form-control" id="notebook_title" placeholder="">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label  class="col-lg-3 control-label">笔记本标签</label>
-                            <div class="col-lg-7">
-                                <select class="form-control" id="notebook_tag">
-
-                                </select>
-                            </div>
-                            <div class="col-lg-2">
-                                <a class="btn btn-default btn-sm" data-toggle="modal" id="addNewNotebookTag">新建标签</a>
-                            </div>
-                        </div>
-
-                        <div class="form-group" id="newNotebookTagDiv" style="display:none;">
-                            <label  class="col-lg-3 control-label">新&nbsp;&nbsp;&nbsp;标&nbsp;&nbsp;&nbsp;&nbsp;签</label>
-                            <div class="col-lg-7">
-                                <input type="text" class="form-control" id="notebook_newTag" placeholder="">
-                            </div>
-                            <div class="col-lg-2">
-                                <a class="btn btn-default btn-sm" onclick="addNotebookTagSideBar()">添&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;加</a>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-lg-12">
-                                <button type="button" class="btn btn-default btn-block" onclick="addNotebook()">确定</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-    <div class="modal fade" id="mySearchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">搜索结果</h4>
-                </div>
-                <div class="modal-body">
-                    <table class="table"  style="text-align:center">
-                        <thead>
-                        <tr>
-                            <th style="text-align:center">ID</th>
-                            <th style="text-align:center">Title</th>
-                            <th style="text-align:center">Tag</th>
-                            <th style="text-align:center">类型</th>
-                        </tr>
-                        </thead>
-                        <tbody id="mySearchContent">
-                        <tr class="">
-                        </tr>
-                        </tbody>
-                    </table>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">好的</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -373,310 +189,120 @@
 
 <script>
 
-    function getCookieValue(key) {
-        var data = decodeURI(document.cookie).split(";");
-        for(var i=0;i<data.length;i++) {
-            if(data[i].trim().indexOf(key)==0) {
-                return data[i].trim();
-            }
-        }
+  function getCookieValue(key) {
+    var data = decodeURI(document.cookie).split(";");
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].trim().indexOf(key) == 0) {
+        return data[i].trim();
+      }
     }
+  }
 </script>
 
 
 <script>
 
-    $(document).ready(function () {
+  $(document).ready(function () {
 
-        var cookieValue = getCookieValue('user=');
-        var privilege = cookieValue.substr(cookieValue.length - 2).charAt(0);
-        if (privilege == 1) {
-            $("#side-menu").append('<li>\n' +
-                '          <a href="/index/userManage">\n' +
-                '            <i class="fa fa-cog fa-fw" aria-hidden="true"></i>\n' +
-                '              账户管理\n' +
-                '          </a>\n' +
-                '        </li>')
-        }
+    var cookieValue = getCookieValue('user=');
+    var privilege = cookieValue.substr(cookieValue.length - 2).charAt(0);
+    if (privilege == 1) {
+      $("#side-menu").append('<li>\n' +
+          '          <a href="/index/userManage">\n' +
+          '            <i class="fa fa-cog fa-fw" aria-hidden="true"></i>\n' +
+          '              账户管理\n' +
+          '          </a>\n' +
+          '        </li>')
+    }
+  });
+
+</script>
+
+<script>
+  $(document).ready(function () {
+    $('#dataTables-example').DataTable({
+      responsive: true
+    });
+  });
+</script>
+
+<script>
+
+  function setDataToDialog(userID, username, email, telephone, privilege) {
+    $('#userID').val(userID);
+    $("#username").val(username);
+    $("#email").val(email);
+    $("#telephone").val(telephone);
+    $("#privilege").val(privilege);
+  }
+
+  function setDataToDeleteDialog(userID, username) {
+    document.getElementById("delete_userID").innerText = userID;
+    document.getElementById("delete_username").innerText = username;
+  }
+
+  function modifyUser() {
+    var userID = document.getElementById("userID").value;
+    var username = document.getElementById("username").value;
+    var email = document.getElementById("email").value;
+    var phoneNumber = document.getElementById("telephone").value;
+    var privilege = document.getElementById("privilege").value;
+
+    $.ajax({
+      data: {userID: userID, username: username, email: email, phoneNumber: phoneNumber, privilege: privilege},
+      url: "/userManage/modifyUser",
+      dataType: 'json',
+//                        async: false,
+      contentType: 'application/json;charset=UTF-8',
+      cache: false,
+      timeout: 0,
+      type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      success: function () {
+        alert("修改成功！");
+        window.location.reload();
+      },
+      error: function () {
+        alert("修改失败！");
+      }
+    });
+  }
+
+  function deleteUser() {
+    var userID = document.getElementById("delete_userID").innerText;
+    $.ajax({
+      data: {userID: userID},
+      url: "/userManage/deleteUser",
+      dataType: 'json',
+//                        async: false,
+      contentType: 'application/json;charset=UTF-8',
+      cache: false,
+      timeout: 0,
+      type: 'get',    // 如果要使用GET方式，则将此处改为'get'
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      success: function () {
+        alert("删除成功！");
+        window.location.reload();
+      },
+      error: function () {
+        alert("删除失败！");
+      }
     });
 
-</script>
+  }
 
-<script>
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable({
-            responsive: true
-        });
-    });
-</script>
-
-<script>
-
-    $("#addNewNotebookTag").click(function () {
-        $("#newNotebookTagDiv").toggle()
-    })
-
-
-    function right(id,title) {
-        var e=window.event;
-        if(e.button=="2"){
-            document.getElementById("delete_id").innerText = id;
-            document.getElementById("delete_title").innerText = title;
-
-        }
+  function getCookieValue(key) {
+    var data = decodeURI(document.cookie).split(";");
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].trim().indexOf(key) == 0) {
+        return data[i].trim();
+      }
     }
-
-    function setDataToDialog(userID,username,email,telephone,privilege){
-        $('#userID').val(userID);
-        $("#username").val(username);
-        $("#email").val(email);
-        $("#telephone").val(telephone);
-        $("#privilege").val(privilege);
-    }
-
-    function setDataToDeleteDialog(userID,username){
-        document.getElementById("delete_userID").innerText =userID;
-        document.getElementById("delete_username").innerText =username;
-    }
-
-    function setDataToDeleteNotebookDialog(){
-        document.getElementById("delete_notebookID").innerText = document.getElementById("delete_id").innerText;
-        document.getElementById("delete_notebookTitle").innerText = document.getElementById("delete_title").innerText;
-    }
-
-    function modifyUser(){
-        var userID = document.getElementById("userID").value;
-        var username = document.getElementById("username").value;
-        var email = document.getElementById("email").value;
-        var phoneNumber = document.getElementById("telephone").value;
-        var privilege = document.getElementById("privilege").value;
-
-        $.ajax({
-            data: {userID: userID, username: username, email: email, phoneNumber: phoneNumber, privilege: privilege},
-            url: "/userManage/modifyUser",
-            dataType: 'json',
-//                        async: false,
-            contentType: 'application/json;charset=UTF-8',
-            cache: false,
-            timeout: 0,
-            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            success: function () {
-                alert("修改成功！");
-                window.location.reload();
-            },
-            error: function () {
-                alert("修改失败！");
-            }
-        });
-    }
-
-    function deleteUser() {
-        var userID = document.getElementById("delete_userID").innerText;
-        $.ajax({
-            data: {userID: userID},
-            url: "/userManage/deleteUser",
-            dataType: 'json',
-//                        async: false,
-            contentType: 'application/json;charset=UTF-8',
-            cache: false,
-            timeout: 0,
-            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            success: function () {
-                alert("删除成功！");
-                window.location.reload();
-            },
-            error: function () {
-                alert("删除失败！");
-            }
-        });
-
-
-    }
-
-    function deleteNotebook(){
-        var notebookID = document.getElementById("delete_notebookID").innerText;
-
-        $.ajax({
-            data: {notebookID: notebookID},
-            url: "/index/deleteNotebook",
-            dataType: 'json',
-//                        async: false,
-            contentType: 'application/json;charset=UTF-8',
-            cache: false,
-            timeout: 0,
-            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            success: function (data) {
-                alert("删除成功！");
-                window.location.reload();
-            },
-            error: function () {
-                alert("删除成功！");
-                window.location.reload();
-            }
-        });
-    }
-
-    function getCookieValue(key) {
-        var data = decodeURI(document.cookie).split(";");
-        for(var i=0;i<data.length;i++) {
-            if(data[i].trim().indexOf(key)==0) {
-                return data[i].trim();
-            }
-        }
-    }
-
-    function getNotebookTags() {
-        $.ajax({
-            data: {},
-            url: "/index/getAllNotebookTags",
-            dataType: 'json',
-//                        async: false,
-            contentType: 'application/json;charset=UTF-8',
-            cache: false,
-            timeout: 0,
-            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            success: function (data) {
-                var result = JSON.parse(JSON.stringify(data));
-                if (result.message == 'success') {
-                    var data = result.data;
-                    for(var i=0; i<data.length;i++){
-                        $("#notebook_tag").append(
-                            "<option>"+data[i].value+ "</option>"
-                        )
-                    }
-                } else {
-                    alert("获取笔记本标签信息失败！请刷新重试！");
-                }
-            },
-            error: function () {
-                alert("获取笔记本标签信息失败！请刷新重试！");
-                window.location.reload();
-            }
-        });
-
-    }
-
-    function addNotebookTagSideBar(){
-        var tag = document.getElementById("notebook_newTag").value;
-        $.ajax({
-            data: {
-                notebookTag:tag
-            },
-            url: "/tagManage/addNotebookTag",
-            dataType: 'json',
-//                        async: false,
-            contentType: 'application/json;charset=UTF-8',
-            cache: false,
-            timeout: 0,
-            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            success: function () {
-                alert("添加笔记本标签成功！");
-                $("#addNotebookTagModal").modal("hide");
-                $("#notebook_tag").append(
-                    "<option>"+tag+ "</option>"
-                )
-                $("#notebook_tag").val(tag);
-                $("#newNotebookTagDiv").hide();
-            },
-            error: function () {
-                alert("添加笔记本标签失败！");
-            }
-        });
-    }
-
-    function addNotebook() {
-        $.ajax({
-            data: {
-                title: document.getElementById("notebook_title").value,
-                tag: $('#notebook_tag').children('option:selected').val()
-            },
-            url: "/index/addNotebook",
-            dataType: 'json',
-//                        async: false,
-            contentType: 'application/json;charset=UTF-8',
-            cache: false,
-            timeout: 0,
-            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            success: function () {
-                alert("添加笔记本成功！");
-                window.location.reload();
-            },
-            error: function () {
-                alert("添加笔记本失败！");
-            }
-        });
-    }
-
-    function mySearch(){
-        var input = $('#mySearchBT').val();
-
-        $.ajax({
-            data: {input:input},
-            url: "/index/mySearch",
-            dataType: 'json',
-//                        async: false,
-            contentType: 'application/json;charset=UTF-8',
-            cache: false,
-            timeout: 0,
-            type: 'get',    // 如果要使用GET方式，则将此处改为'get'
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            success: function (data) {
-                var result = JSON.parse(JSON.stringify(data));
-
-                var data1 = result.notebookData;
-                var data2 = result.pageData;
-
-                $("#mySearchContent").empty();
-
-                for(var i=0;i<data1.length;i++) {
-                    $("#mySearchContent").append(
-                        "<tr><td>"+data1[i].notebookID+
-                        "</td><td>"+data1[i].title+
-                        "</td><td>"+data1[i].tag+
-                        "</td><td>"+"笔记本"+
-                        "</td><tr>"
-                    )
-                }
-
-                for(var i=0;i<data2.length;i++) {
-                    $("#mySearchContent").append(
-                        "<tr><td>"+data2[i].pageID+
-                        "</td><td>"+data2[i].title+
-                        "</td><td>"+data2[i].tag+
-                        "</td><td>"+"笔记"+
-                        "</td><tr>"
-                    )
-                }
-
-                $('#mySearchModal').modal('show');
-            },
-            error: function () {
-                alert("分享失败，请刷新重试！");
-            }
-        });
-
-
-    }
+  }
 
 </script>
 
